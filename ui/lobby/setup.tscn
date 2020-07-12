@@ -1,0 +1,49 @@
+[gd_scene format=2]
+
+[node name="Setup" type="PanelContainer"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 188.0
+margin_bottom = 87.0
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer"]
+margin_right = 181.0
+margin_bottom = 24.0
+text = "Enable teams"
+
+[node name="TeamsCount" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 28.0
+margin_right = 181.0
+margin_bottom = 52.0
+
+[node name="Label" type="Label" parent="VBoxContainer/TeamsCount"]
+margin_top = 5.0
+margin_right = 86.0
+margin_bottom = 19.0
+text = "Teams count:"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/TeamsCount"]
+margin_left = 90.0
+margin_right = 164.0
+margin_bottom = 24.0
+
+[node name="PlayersCount" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 56.0
+margin_right = 181.0
+margin_bottom = 80.0
+
+[node name="Label" type="Label" parent="VBoxContainer/PlayersCount"]
+margin_top = 5.0
+margin_right = 103.0
+margin_bottom = 19.0
+text = "Players in team:"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/PlayersCount"]
+margin_left = 107.0
+margin_right = 181.0
+margin_bottom = 24.0
