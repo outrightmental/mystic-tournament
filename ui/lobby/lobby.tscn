@@ -63,6 +63,9 @@ text = "Teams count:"
 margin_left = 90.0
 margin_right = 164.0
 margin_bottom = 24.0
+min_value = 2.0
+max_value = 6.0
+value = 2.0
 
 [node name="PlayersCount" type="HBoxContainer" parent="Grid/Settings/VBox"]
 margin_top = 56.0
@@ -79,6 +82,8 @@ text = "Players in team:"
 margin_left = 107.0
 margin_right = 181.0
 margin_bottom = 24.0
+min_value = 1.0
+value = 1.0
 
 [node name="Chat" parent="Grid" instance=ExtResource( 1 )]
 margin_top = 332.0
