@@ -41,4 +41,4 @@ caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="text_entered" from="InputField" to="." method="write_message"]
+[connection signal="text_entered" from="InputField" to="." method="_write_message"]

@@ -3,63 +3,128 @@
 [ext_resource path="res://ui/chat/chat.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/lobby/settings.gd" type="Script" id=2]
 
-[node name="Lobby" type="MarginContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 150
-custom_constants/margin_top = 70
-custom_constants/margin_left = 150
-custom_constants/margin_bottom = 70
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
-
-[node name="Grid" type="GridContainer" parent="."]
+[node name="Grid" type="GridContainer"]
 margin_left = 150.0
 margin_top = 70.0
 margin_right = 874.0
 margin_bottom = 530.0
 columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Players" type="PanelContainer" parent="Grid"]
+[node name="Players" type="PanelContainer" parent="."]
 margin_right = 525.0
-margin_bottom = 328.0
+margin_bottom = 334.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Settings" type="PanelContainer" parent="Grid"]
+[node name="VBox" type="VBoxContainer" parent="Players"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 518.0
+margin_bottom = 327.0
+
+[node name="Label" type="Label" parent="Players/VBox"]
+margin_right = 511.0
+margin_bottom = 14.0
+text = "Team 1"
+
+[node name="MenuButton" type="MenuButton" parent="Players/VBox"]
+margin_left = 40.0
+margin_top = 18.0
+margin_right = 4096.0
+margin_bottom = 38.0
+button_mask = 2
+text = "Open"
+flat = false
+
+[node name="MenuButton2" type="MenuButton" parent="Players/VBox"]
+margin_left = 40.0
+margin_top = 42.0
+margin_right = 4096.0
+margin_bottom = 62.0
+button_mask = 2
+text = "Open"
+flat = false
+
+[node name="MenuButton6" type="MenuButton" parent="Players/VBox"]
+margin_left = 40.0
+margin_top = 66.0
+margin_right = 4096.0
+margin_bottom = 86.0
+button_mask = 2
+text = "Open"
+flat = false
+
+[node name="Label2" type="Label" parent="Players/VBox"]
+margin_top = 90.0
+margin_right = 511.0
+margin_bottom = 104.0
+text = "Team 2"
+
+[node name="MenuButton3" type="MenuButton" parent="Players/VBox"]
+margin_left = 40.0
+margin_top = 108.0
+margin_right = 4096.0
+margin_bottom = 128.0
+button_mask = 2
+text = "Open"
+flat = false
+
+[node name="MenuButton4" type="MenuButton" parent="Players/VBox"]
+margin_left = 40.0
+margin_top = 132.0
+margin_right = 4096.0
+margin_bottom = 152.0
+button_mask = 2
+text = "Open"
+flat = false
+
+[node name="MenuButton5" type="MenuButton" parent="Players/VBox"]
+margin_left = 40.0
+margin_top = 156.0
+margin_right = 4096.0
+margin_bottom = 176.0
+button_mask = 2
+text = "Open"
+flat = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Settings" type="PanelContainer" parent="."]
 margin_left = 529.0
 margin_right = 724.0
-margin_bottom = 328.0
+margin_bottom = 334.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox" type="VBoxContainer" parent="Grid/Settings"]
+[node name="VBox" type="VBoxContainer" parent="Settings"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 188.0
-margin_bottom = 321.0
+margin_bottom = 327.0
 
-[node name="EnableTeams" type="CheckBox" parent="Grid/Settings/VBox"]
+[node name="EnableTeams" type="CheckBox" parent="Settings/VBox"]
 margin_right = 181.0
 margin_bottom = 24.0
 text = "Enable teams"
 
-[node name="TeamsCount" type="HBoxContainer" parent="Grid/Settings/VBox"]
+[node name="TeamsCount" type="HBoxContainer" parent="Settings/VBox"]
 margin_top = 28.0
 margin_right = 181.0
 margin_bottom = 52.0
 
-[node name="Label" type="Label" parent="Grid/Settings/VBox/TeamsCount"]
+[node name="Label" type="Label" parent="Settings/VBox/TeamsCount"]
 margin_top = 5.0
 margin_right = 86.0
 margin_bottom = 19.0
 text = "Teams count:"
 
-[node name="SpinBox" type="SpinBox" parent="Grid/Settings/VBox/TeamsCount"]
+[node name="SpinBox" type="SpinBox" parent="Settings/VBox/TeamsCount"]
 margin_left = 90.0
 margin_right = 164.0
 margin_bottom = 24.0
@@ -67,42 +132,42 @@ min_value = 2.0
 max_value = 6.0
 value = 2.0
 
-[node name="PlayersCount" type="HBoxContainer" parent="Grid/Settings/VBox"]
+[node name="PlayersCount" type="HBoxContainer" parent="Settings/VBox"]
 margin_top = 56.0
 margin_right = 181.0
 margin_bottom = 80.0
 
-[node name="Label" type="Label" parent="Grid/Settings/VBox/PlayersCount"]
+[node name="Label" type="Label" parent="Settings/VBox/PlayersCount"]
 margin_top = 5.0
 margin_right = 103.0
 margin_bottom = 19.0
 text = "Players in team:"
 
-[node name="SpinBox" type="SpinBox" parent="Grid/Settings/VBox/PlayersCount"]
+[node name="SpinBox" type="SpinBox" parent="Settings/VBox/PlayersCount"]
 margin_left = 107.0
 margin_right = 181.0
 margin_bottom = 24.0
 min_value = 1.0
 value = 1.0
 
-[node name="Chat" parent="Grid" instance=ExtResource( 1 )]
-margin_top = 332.0
+[node name="Chat" parent="." instance=ExtResource( 1 )]
+margin_top = 338.0
 margin_right = 525.0
-margin_bottom = 460.0
+margin_bottom = 466.0
 
-[node name="Buttons" type="VBoxContainer" parent="Grid"]
+[node name="Buttons" type="VBoxContainer" parent="."]
 margin_left = 529.0
-margin_top = 374.0
+margin_top = 380.0
 margin_right = 724.0
-margin_bottom = 418.0
+margin_bottom = 424.0
 size_flags_vertical = 4
 
-[node name="Start" type="Button" parent="Grid/Buttons"]
+[node name="Start" type="Button" parent="Buttons"]
 margin_right = 195.0
 margin_bottom = 20.0
 text = "Start"
 
-[node name="Cancel" type="Button" parent="Grid/Buttons"]
+[node name="Cancel" type="Button" parent="Buttons"]
 margin_top = 24.0
 margin_right = 195.0
 margin_bottom = 44.0

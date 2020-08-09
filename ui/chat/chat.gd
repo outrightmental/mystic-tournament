@@ -2,11 +2,14 @@ extends VBoxContainer
 
 
 func _ready() -> void:
-	if get_tree().is_network_server():
-		# warning-ignore:return_value_discarded
-		get_tree().connect("network_peer_connected", self, "_announce_connected")
-		# warning-ignore:return_value_discarded
-		get_tree().connect("network_peer_disconnected", self, "_announce_disconnected")
+	# warning-ignore:return_value_discarded
+	get_tree().connect("network_peer_connected", self, "_announce_connected")
+	# warning-ignore:return_value_discarded
+	get_tree().connect("network_peer_disconnected", self, "_announce_disconnected")
+	# warning-ignore:return_value_discarded
+	get_tree().connect("connected_to_server", self, "_display_message", ["gray", "You joined the game."])
+	# warning-ignore:return_value_discarded
+	get_tree().connect("server_disconnected", self, "_display_message", ["gray", "You left the game."])
 
 
 func _input(event: InputEvent) -> void:
@@ -22,25 +25,25 @@ func _input(event: InputEvent) -> void:
 			$InputField.grab_focus()
 
 
-func write_message(message: String) -> void:
+master func _send_message(message: String) -> void:
+	rpc("_display_message", "white", "[[color=green]%d[/color]]: %s" % [get_tree().get_rpc_sender_id(), message])
+
+
+puppetsync func _display_message(bbColor : String, message: String):
+	$Panel/ChatWindow.bbcode_text += "\n%s [color=%s]%s[/color]" % [_time(), bbColor, message]
+
+
+func _write_message(message: String) -> void:
 	$InputField.clear()
 	rpc("_send_message", message)
 
 
-master func _send_message(message: String) -> void:
-	rpc("_display_message", "%s [[color=green]%d[/color]]: %s" % [_time(), get_tree().get_rpc_sender_id(), message])
-
-
-puppetsync func _display_message(message: String):
-	$Panel/ChatWindow.bbcode_text += '\n' + message
-
-
 func _announce_connected(id: int) -> void:
-	rpc("_display_message", "%s [color=yellow]%d has joined the game.[/color]" % [_time(), id])
+	_display_message("yellow", "%d has joined the game." % id)
 
 
 func _announce_disconnected(id: int) -> void:
-	rpc("_display_message", "%s [color=yellow]%d has left the game.[/color]" % [_time(), id])
+	_display_message("yellow", "%d has left the game." % id)
 
 
 func _time() -> String:
