@@ -4,3 +4,6 @@
 # Build files
 *.pck
 *.x86_64
+
+# VSCode settings
+.vscode
