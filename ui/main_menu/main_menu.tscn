@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/main_menu/main_menu.tres" type="Theme" id=1]
+
+[node name="MainMenu" type="VBoxContainer"]
+margin_right = 100.0
+margin_bottom = 140.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="Button" parent="."]
+margin_right = 352.0
+margin_bottom = 54.0
+text = "Play"
+flat = true
+align = 0
+
+[node name="CustomGameButton" type="Button" parent="."]
+margin_top = 58.0
+margin_right = 352.0
+margin_bottom = 112.0
+text = "Custom game"
+flat = true
+align = 0
+
+[node name="CharactersButton" type="Button" parent="."]
+margin_top = 116.0
+margin_right = 352.0
+margin_bottom = 170.0
+text = "Characters"
+flat = true
+align = 0
+
+[node name="ProfileButton" type="Button" parent="."]
+margin_top = 174.0
+margin_right = 352.0
+margin_bottom = 228.0
+text = "Profile"
+flat = true
+align = 0
+
+[node name="SettingsButton" type="Button" parent="."]
+margin_top = 232.0
+margin_right = 352.0
+margin_bottom = 286.0
+text = "Settings"
+flat = true
+align = 0
+
+[node name="ExitButton" type="Button" parent="."]
+margin_top = 290.0
+margin_right = 352.0
+margin_bottom = 344.0
+text = "Exit"
+flat = true
+align = 0

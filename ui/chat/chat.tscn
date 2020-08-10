@@ -44,7 +44,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 215, 24 ), Vector2( 58, 24 ) ]
+"values": [ Vector2( 400, 24 ), Vector2( 58, 24 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("OpenChatButton:visible")
@@ -119,7 +119,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 58, 24 ), Vector2( 215, 24 ) ]
+"values": [ Vector2( 58, 24 ), Vector2( 400, 24 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("OpenChatButton:visible")
@@ -148,8 +148,8 @@ tracks/4/keys = {
 
 [node name="Chat" type="VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_right = 215.0
-margin_bottom = 120.0
+margin_right = 400.0
+margin_bottom = 200.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -157,8 +157,8 @@ __meta__ = {
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_right = 215.0
-margin_bottom = 100.0
+margin_right = 400.0
+margin_bottom = 172.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 3
 __meta__ = {
@@ -180,9 +180,9 @@ __meta__ = {
 [node name="InputField" type="LineEdit" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 96.0
-margin_right = 58.0
-margin_bottom = 120.0
+margin_top = 148.0
+margin_right = 400.0
+margin_bottom = 172.0
 focus_mode = 1
 placeholder_text = "Message"
 caret_blink = true
@@ -192,10 +192,11 @@ __meta__ = {
 }
 
 [node name="OpenChatButton" type="Button" parent="."]
-margin_top = 104.0
-margin_right = 215.0
-margin_bottom = 128.0
+margin_top = 176.0
+margin_right = 123.0
+margin_bottom = 200.0
 rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 0
 shortcut = SubResource( 2 )
 text = "Open chat (Enter)"
 __meta__ = {
@@ -206,5 +207,5 @@ __meta__ = {
 anims/hide_background = SubResource( 3 )
 anims/show_background = SubResource( 4 )
 [connection signal="text_entered" from="InputField" to="." method="_write_message"]
-[connection signal="pressed" from="OpenChatButton" to="InputField" method="grab_focus"]
 [connection signal="pressed" from="OpenChatButton" to="AnimationPlayer" method="play" binds= [ "show_background" ]]
+[connection signal="pressed" from="OpenChatButton" to="InputField" method="grab_focus"]

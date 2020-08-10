@@ -18,9 +18,10 @@ _global_script_class_icons={
 config/name="Mystic Tournament"
 run/main_scene="res://ui/join_host/join_host.tscn"
 
-[audio]
+[display]
 
-default_bus_layout=""
+window/size/width=1920
+window/size/height=1080
 
 [rendering]
 
