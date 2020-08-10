@@ -1,9 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/chat/chat.gd" type="Script" id=1]
 
-[sub_resource type="Animation" id=1]
-resource_name = "show_background"
+[sub_resource type="InputEventAction" id=1]
+action = "ui_accept"
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
+
+[sub_resource type="Animation" id=3]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Panel:self_modulate")
@@ -78,8 +83,7 @@ tracks/5/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "show_background"
+[sub_resource type="Animation" id=4]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Panel:self_modulate")
@@ -154,7 +158,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 215.0
-margin_bottom = 104.0
+margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 3
 __meta__ = {
@@ -188,18 +192,19 @@ __meta__ = {
 }
 
 [node name="OpenChatButton" type="Button" parent="."]
-margin_top = 108.0
+margin_top = 104.0
 margin_right = 215.0
-margin_bottom = 132.0
+margin_bottom = 128.0
 rect_min_size = Vector2( 0, 24 )
+shortcut = SubResource( 2 )
 text = "Open chat (Enter)"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/hide_background = SubResource( 1 )
-anims/show_background = SubResource( 2 )
+anims/hide_background = SubResource( 3 )
+anims/show_background = SubResource( 4 )
 [connection signal="text_entered" from="InputField" to="." method="_write_message"]
 [connection signal="pressed" from="OpenChatButton" to="InputField" method="grab_focus"]
 [connection signal="pressed" from="OpenChatButton" to="AnimationPlayer" method="play" binds= [ "show_background" ]]

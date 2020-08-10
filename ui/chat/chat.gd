@@ -15,11 +15,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		if $OpenChatButton.visible:
-			$OpenChatButton.accept_event()
-			$OpenChatButton.emit_signal("pressed")
-	elif event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel"):
 		if $InputField.has_focus():
 			$InputField.accept_event()
 			$InputField.release_focus()
