@@ -10,19 +10,19 @@ func _ready() -> void:
 	get_tree().connect("connected_to_server", self, "_display_message", ["gray", "You joined the game."])
 	# warning-ignore:return_value_discarded
 	get_tree().connect("server_disconnected", self, "_display_message", ["gray", "You left the game."])
+	# warning-ignore:return_value_discarded
+	$InputField.connect("focus_exited", $AnimationPlayer, "play", ["hide_background"])
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_accept"):
+		if $OpenChatButton.visible:
+			$OpenChatButton.accept_event()
+			$OpenChatButton.emit_signal("pressed")
+	elif event.is_action_pressed("ui_cancel"):
 		if $InputField.has_focus():
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			$InputField.accept_event()
 			$InputField.release_focus()
-	elif event.is_action_pressed("ui_accept"):
-		if not $InputField.has_focus():
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			$InputField.accept_event()
-			$InputField.grab_focus()
 
 
 master func _send_message(message: String) -> void:
