@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://ui/join_host/connection_dialog.gd" type="Script" id=1]
+[ext_resource path="res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/join_host/join_host.gd" type="Script" id=2]
+
 
 [node name="JoinHost" type="Control"]
 anchor_left = 0.5
@@ -97,7 +98,7 @@ margin_bottom = -4.0
 
 [node name="Grid" type="GridContainer" parent="Tabs/Join"]
 margin_right = 158.0
-margin_bottom = 70.0
+margin_bottom = 62.0
 size_flags_vertical = 3
 columns = 2
 
@@ -129,51 +130,15 @@ max_value = 65535.0
 value = 10567.0
 
 [node name="Join" type="Button" parent="Tabs/Join"]
-margin_top = 74.0
+margin_top = 66.0
 margin_right = 35.0
-margin_bottom = 94.0
+margin_bottom = 86.0
 size_flags_horizontal = 0
 text = "Join"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ConnectionDialog" type="PopupDialog" parent="."]
-margin_right = 300.0
-margin_bottom = 99.9997
-popup_exclusive = true
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Container" type="VBoxContainer" parent="ConnectionDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Text" type="Label" parent="ConnectionDialog/Container"]
-margin_left = 150.0
-margin_top = 30.0
-margin_right = 150.0
-margin_bottom = 44.0
-size_flags_horizontal = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Button" type="Button" parent="ConnectionDialog/Container"]
-margin_left = 144.0
-margin_top = 48.0
-margin_right = 156.0
-margin_bottom = 68.0
-size_flags_horizontal = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ConnectionDialog" parent="." instance=ExtResource( 1 )]
 [connection signal="pressed" from="Tabs/Host/Host" to="." method="_host"]
 [connection signal="pressed" from="Tabs/Join/Join" to="." method="_join"]
-[connection signal="pressed" from="ConnectionDialog/Container/Button" to="ConnectionDialog" method="_close"]

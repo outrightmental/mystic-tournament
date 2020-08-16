@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.gd" type="Script" id=1]
+
+
+
+
+
+[node name="ConnectionDialog" type="WindowDialog"]
+visible = true
+margin_right = 300.0
+margin_bottom = 99.9997
+popup_exclusive = true
+script = ExtResource( 1 )
+
+[node name="HBox" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox"]
+margin_left = 150.0
+margin_top = 30.0
+margin_right = 150.0
+margin_bottom = 44.0
+size_flags_horizontal = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CancelButton" type="Button" parent="HBox"]
+margin_left = 123.0
+margin_top = 48.0
+margin_right = 177.0
+margin_bottom = 68.0
+size_flags_horizontal = 4
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="HBox/CancelButton" to="." method="_cancel"]

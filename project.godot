@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Reference",
+"class": "ConnectionDialog",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.gd"
+}, {
+"base": "Reference",
+"class": "ErrorDialog",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/lobby/error_dialog/error_dialog.gd"
+} ]
 _global_script_class_icons={
-
+"ConnectionDialog": "",
+"ErrorDialog": ""
 }
 
 [application]
