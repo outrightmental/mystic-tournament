@@ -80,6 +80,7 @@ margin_top = 722.0
 margin_right = 583.0
 margin_bottom = 742.0
 size_flags_horizontal = 4
+disabled = true
 text = "Join"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -97,8 +98,8 @@ margin_bottom = 756.0
 margin_left = 1149.0
 margin_right = 1344.0
 margin_bottom = 756.0
-[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="configure"]
 [connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Servers" method="hide"]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="configure"]
 [connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="Servers/DirectConnectDialog" method="popup_centered"]
 [connection signal="connection_confirmed" from="Servers/DirectConnectDialog" to="Lobby" method="join"]
 [connection signal="configuring_started" from="Lobby" to="ServerSettings" method="set_editable" binds= [ true ]]
