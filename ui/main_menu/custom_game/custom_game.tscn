@@ -103,4 +103,5 @@ margin_bottom = 756.0
 [connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="Servers/DirectConnectDialog" method="popup_centered"]
 [connection signal="connection_confirmed" from="Servers/DirectConnectDialog" to="Lobby" method="join"]
 [connection signal="configuring_started" from="Lobby" to="ServerSettings" method="set_editable" binds= [ true ]]
+[connection signal="created" from="Lobby" to="ServerSettings" method="set_editable" binds= [ false ]]
 [connection signal="joined" from="Lobby" to="Servers" method="hide"]

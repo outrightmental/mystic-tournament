@@ -42,10 +42,10 @@ func _confirm_creation() -> void:
 	if result != OK:
 		_error_dialog.show_error("Unable to create server")
 		return
-	
+
 	_port_spin.editable = false
 	_server_name_edit.editable = false
-		
+
 	get_tree().network_peer = peer
 	emit_signal("created")
 
@@ -62,6 +62,9 @@ func _process_successful_join() -> void:
 
 	_connection_dialog.hide()
 	emit_signal("joined")
+
+	_port_spin.editable = false
+	_server_name_edit.editable = false
 	show()
 
 
