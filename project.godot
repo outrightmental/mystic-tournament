@@ -9,12 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
+"base": "WindowDialog",
 "class": "ConnectionDialog",
 "language": "GDScript",
 "path": "res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.gd"
 }, {
-"base": "Reference",
+"base": "AcceptDialog",
 "class": "ErrorDialog",
 "language": "GDScript",
 "path": "res://ui/main_menu/custom_game/lobby/error_dialog/error_dialog.gd"
@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Mystic Tournament"
-run/main_scene="res://ui/join_host/join_host.tscn"
+run/main_scene="res://core/main.tscn"
 
 [display]
 

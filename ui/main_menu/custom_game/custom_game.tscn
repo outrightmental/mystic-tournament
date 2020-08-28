@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.gd" type="Script" id=4]
 [ext_resource path="res://ui/main_menu/custom_game/direct_connect_dialog/direct_coonect_dialog.tscn" type="PackedScene" id=7]
 
 [node name="CustomGame" type="HBoxContainer"]
@@ -14,7 +13,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Games" type="PanelContainer" parent="."]
+[node name="Servers" type="PanelContainer" parent="."]
 margin_right = 1145.0
 margin_bottom = 756.0
 rect_min_size = Vector2( 600, 200 )
@@ -23,7 +22,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox" type="VBoxContainer" parent="Games"]
+[node name="VBox" type="VBoxContainer" parent="Servers"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 1138.0
@@ -32,13 +31,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBox" type="HBoxContainer" parent="Games/VBox"]
+[node name="HBox" type="HBoxContainer" parent="Servers/VBox"]
 margin_left = 714.0
 margin_right = 1131.0
 margin_bottom = 24.0
 size_flags_horizontal = 8
 
-[node name="FilterEdit" type="LineEdit" parent="Games/VBox/HBox"]
+[node name="FilterEdit" type="LineEdit" parent="Servers/VBox/HBox"]
 margin_right = 250.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 250, 0 )
@@ -49,7 +48,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CreateButton" type="Button" parent="Games/VBox/HBox"]
+[node name="CreateButton" type="Button" parent="Servers/VBox/HBox"]
 margin_left = 254.0
 margin_right = 307.0
 margin_bottom = 24.0
@@ -58,7 +57,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DirectConnectButton" type="Button" parent="Games/VBox/HBox"]
+[node name="DirectConnectButton" type="Button" parent="Servers/VBox/HBox"]
 margin_left = 311.0
 margin_right = 417.0
 margin_bottom = 24.0
@@ -67,7 +66,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ServersTable" type="Tree" parent="Games/VBox"]
+[node name="ServersTable" type="Tree" parent="Servers/VBox"]
 margin_top = 28.0
 margin_right = 1131.0
 margin_bottom = 718.0
@@ -75,7 +74,7 @@ size_flags_vertical = 3
 columns = 3
 select_mode = 1
 
-[node name="JoinButton" type="Button" parent="Games/VBox"]
+[node name="JoinButton" type="Button" parent="Servers/VBox"]
 margin_left = 548.0
 margin_top = 722.0
 margin_right = 583.0
@@ -86,18 +85,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DirectConnectDialog" parent="Games" instance=ExtResource( 7 )]
+[node name="DirectConnectDialog" parent="Servers" instance=ExtResource( 7 )]
 dialog_hide_on_ok = false
 
 [node name="Lobby" parent="." instance=ExtResource( 3 )]
 visible = false
 margin_right = 1204.0
 margin_bottom = 756.0
-script = ExtResource( 4 )
 
 [node name="ServerSettings" parent="." instance=ExtResource( 2 )]
 margin_left = 1149.0
 margin_right = 1344.0
 margin_bottom = 756.0
-[connection signal="pressed" from="Games/VBox/HBox/DirectConnectButton" to="Games/DirectConnectDialog" method="popup_centered"]
-[connection signal="connection_confirmed" from="Games/DirectConnectDialog" to="Lobby" method="join"]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="configure"]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Servers" method="hide"]
+[connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="Servers/DirectConnectDialog" method="popup_centered"]
+[connection signal="connection_confirmed" from="Servers/DirectConnectDialog" to="Lobby" method="join"]
+[connection signal="configuring_started" from="Lobby" to="ServerSettings" method="set_editable" binds= [ true ]]
+[connection signal="joined" from="Lobby" to="Servers" method="hide"]

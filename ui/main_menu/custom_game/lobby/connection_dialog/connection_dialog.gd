@@ -8,8 +8,8 @@ signal canceled
 onready var _label: Label = $HBox/Label
 
 
-func show_connecting(server_name: String) -> void:
-	_label.text = "Connecting to %s..." % server_name
+func show_connecting(address: String, port: int) -> void:
+	_label.text = "Connecting to %s:%d" % [address, port]
 	popup_centered()
 
 

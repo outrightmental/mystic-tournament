@@ -28,15 +28,15 @@ __meta__ = {
 
 [node name="AddressLabel" type="Label" parent="Grid"]
 margin_top = 5.0
-margin_right = 30.0
+margin_right = 56.0
 margin_bottom = 19.0
-text = "IP:"
+text = "Address:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AddressEdit" type="LineEdit" parent="Grid"]
-margin_left = 34.0
+margin_left = 60.0
 margin_right = 184.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
@@ -47,7 +47,7 @@ __meta__ = {
 
 [node name="PortLabel" type="Label" parent="Grid"]
 margin_top = 33.0
-margin_right = 30.0
+margin_right = 56.0
 margin_bottom = 47.0
 text = "Port:"
 __meta__ = {
@@ -55,9 +55,9 @@ __meta__ = {
 }
 
 [node name="PortSpin" type="SpinBox" parent="Grid"]
-margin_left = 34.0
+margin_left = 60.0
 margin_top = 28.0
-margin_right = 108.0
+margin_right = 134.0
 margin_bottom = 52.0
 size_flags_horizontal = 0
 max_value = 65535.0

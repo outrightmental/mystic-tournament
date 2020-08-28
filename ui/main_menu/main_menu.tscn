@@ -11,7 +11,7 @@ __meta__ = {
 }
 
 [node name="PlayButton" type="Button" parent="."]
-margin_right = 352.0
+margin_right = 1458.0
 margin_bottom = 54.0
 text = "Play"
 flat = true
@@ -19,7 +19,7 @@ align = 0
 
 [node name="CustomGameButton" type="Button" parent="."]
 margin_top = 58.0
-margin_right = 352.0
+margin_right = 1458.0
 margin_bottom = 112.0
 text = "Custom game"
 flat = true
@@ -27,7 +27,7 @@ align = 0
 
 [node name="CharactersButton" type="Button" parent="."]
 margin_top = 116.0
-margin_right = 352.0
+margin_right = 1458.0
 margin_bottom = 170.0
 text = "Characters"
 flat = true
@@ -35,7 +35,7 @@ align = 0
 
 [node name="ProfileButton" type="Button" parent="."]
 margin_top = 174.0
-margin_right = 352.0
+margin_right = 1458.0
 margin_bottom = 228.0
 text = "Profile"
 flat = true
@@ -43,7 +43,7 @@ align = 0
 
 [node name="SettingsButton" type="Button" parent="."]
 margin_top = 232.0
-margin_right = 352.0
+margin_right = 1458.0
 margin_bottom = 286.0
 text = "Settings"
 flat = true
@@ -51,7 +51,7 @@ align = 0
 
 [node name="ExitButton" type="Button" parent="."]
 margin_top = 290.0
-margin_right = 352.0
+margin_right = 1458.0
 margin_bottom = 344.0
 text = "Exit"
 flat = true
