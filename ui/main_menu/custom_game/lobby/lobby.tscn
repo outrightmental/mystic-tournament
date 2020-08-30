@@ -18,6 +18,12 @@ __meta__ = {
 [node name="ErrorDialog" parent="." instance=ExtResource( 1 )]
 margin_right = 78.0
 
+[node name="LeaveDialog" type="ConfirmationDialog" parent="."]
+margin_right = 283.0
+margin_bottom = 70.0
+window_title = "Leave lobby"
+dialog_text = "Are you sure you want to leave the lobby?"
+
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
@@ -106,4 +112,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="canceled" from="ConnectionDialog" to="." method="_cancel_join"]
-[connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_creation"]
+[connection signal="confirmed" from="LeaveDialog" to="." method="hide"]
+[connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_configuration"]
