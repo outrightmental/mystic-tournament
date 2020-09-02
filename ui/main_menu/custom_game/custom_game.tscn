@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://ui/main_menu/custom_game/custom_game.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/main_menu/custom_game/direct_connect_dialog/direct_coonect_dialog.tscn" type="PackedScene" id=7]
@@ -9,6 +10,7 @@ anchor_left = 0.15
 anchor_top = 0.15
 anchor_right = 0.85
 anchor_bottom = 0.85
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -98,10 +100,10 @@ margin_bottom = 756.0
 margin_left = 1149.0
 margin_right = 1344.0
 margin_bottom = 756.0
-[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="configure"]
-[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Servers" method="hide"]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="create"]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="." method="_switch_panels"]
 [connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="Servers/DirectConnectDialog" method="popup_centered"]
 [connection signal="connection_confirmed" from="Servers/DirectConnectDialog" to="Lobby" method="join"]
 [connection signal="configurable_changed" from="Lobby" to="ServerSettings" method="set_editable"]
-[connection signal="hide" from="Lobby" to="Servers" method="show"]
-[connection signal="joined" from="Lobby" to="Servers" method="hide"]
+[connection signal="joined" from="Lobby" to="." method="_switch_panels"]
+[connection signal="leaved" from="Lobby" to="." method="_switch_panels"]

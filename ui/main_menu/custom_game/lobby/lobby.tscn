@@ -112,5 +112,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="canceled" from="ConnectionDialog" to="." method="_cancel_join"]
-[connection signal="confirmed" from="LeaveDialog" to="." method="hide"]
-[connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_configuration"]
+[connection signal="confirmed" from="LeaveDialog" to="." method="_close"]
+[connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_creation"]
