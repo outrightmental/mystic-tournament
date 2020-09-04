@@ -1,3 +1,4 @@
+class_name Lobby
 extends PanelContainer
 # Represents the lobby and manages connections to it
 
@@ -8,6 +9,7 @@ signal configurable_changed(configurable)
 
 var _configurable: bool
 
+onready var teams_tree: TeamsTree = $VBox/TeamsTree
 onready var _error_dialog: ErrorDialog = $ErrorDialog
 onready var _connection_dialog: ConnectionDialog = $ConnectionDialog
 onready var _leave_dialog: ConfirmationDialog = $LeaveDialog

@@ -28,12 +28,30 @@ _global_script_classes=[ {
 "class": "ExitDialog",
 "language": "GDScript",
 "path": "res://ui/main_menu/exit_dialog/exit_dialog.gd"
+}, {
+"base": "PanelContainer",
+"class": "Lobby",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/lobby/lobby.gd"
+}, {
+"base": "PanelContainer",
+"class": "ServerSettings",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/server_settings/server_settings.gd"
+}, {
+"base": "Tree",
+"class": "TeamsTree",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/lobby/teams_tree/teams_tree.gd"
 } ]
 _global_script_class_icons={
 "ConnectionDialog": "",
 "ControlUtils": "",
 "ErrorDialog": "",
-"ExitDialog": ""
+"ExitDialog": "",
+"Lobby": "",
+"ServerSettings": "",
+"TeamsTree": ""
 }
 
 [application]

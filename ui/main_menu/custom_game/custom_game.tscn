@@ -100,10 +100,10 @@ margin_bottom = 756.0
 margin_left = 1149.0
 margin_right = 1344.0
 margin_bottom = 756.0
-[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="create"]
 [connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="." method="_switch_panels"]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="Lobby" method="create"]
 [connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="Servers/DirectConnectDialog" method="popup_centered"]
 [connection signal="connection_confirmed" from="Servers/DirectConnectDialog" to="Lobby" method="join"]
-[connection signal="configurable_changed" from="Lobby" to="ServerSettings" method="set_editable"]
+[connection signal="configurable_changed" from="Lobby" to="." method="_set_teams_editable"]
 [connection signal="joined" from="Lobby" to="." method="_switch_panels"]
 [connection signal="leaved" from="Lobby" to="." method="_switch_panels"]
