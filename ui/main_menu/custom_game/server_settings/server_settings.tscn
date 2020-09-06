@@ -14,17 +14,36 @@ __meta__ = {
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 188.0
-margin_bottom = 87.0
+margin_bottom = 115.0
 
-[node name="EnableTeams" type="CheckBox" parent="VBox"]
+[node name="TeamsEnabled" type="CheckBox" parent="VBox"]
 margin_right = 181.0
 margin_bottom = 24.0
-text = "Enable teams"
+pressed = true
+text = "Teams enabled"
 
-[node name="TeamsCount" type="HBoxContainer" parent="VBox"]
+[node name="PlayersCount" type="HBoxContainer" parent="VBox"]
 margin_top = 28.0
 margin_right = 181.0
 margin_bottom = 52.0
+
+[node name="Label" type="Label" parent="VBox/PlayersCount"]
+margin_top = 5.0
+margin_right = 90.0
+margin_bottom = 19.0
+text = "Players count:"
+
+[node name="SpinBox" type="SpinBox" parent="VBox/PlayersCount"]
+margin_left = 94.0
+margin_right = 168.0
+margin_bottom = 24.0
+min_value = 1.0
+value = 1.0
+
+[node name="TeamsCount" type="HBoxContainer" parent="VBox"]
+margin_top = 56.0
+margin_right = 181.0
+margin_bottom = 80.0
 
 [node name="Label" type="Label" parent="VBox/TeamsCount"]
 margin_top = 5.0
@@ -40,20 +59,21 @@ min_value = 2.0
 max_value = 6.0
 value = 2.0
 
-[node name="PlayersCount" type="HBoxContainer" parent="VBox"]
-margin_top = 56.0
+[node name="PlayersInTeamCount" type="HBoxContainer" parent="VBox"]
+margin_top = 84.0
 margin_right = 181.0
-margin_bottom = 80.0
+margin_bottom = 108.0
 
-[node name="Label" type="Label" parent="VBox/PlayersCount"]
+[node name="Label" type="Label" parent="VBox/PlayersInTeamCount"]
 margin_top = 5.0
 margin_right = 103.0
 margin_bottom = 19.0
 text = "Players in team:"
 
-[node name="SpinBox" type="SpinBox" parent="VBox/PlayersCount"]
+[node name="SpinBox" type="SpinBox" parent="VBox/PlayersInTeamCount"]
 margin_left = 107.0
 margin_right = 181.0
 margin_bottom = 24.0
 min_value = 1.0
 value = 1.0
+[connection signal="toggled" from="VBox/TeamsEnabled" to="." method="_set_teams_enabled"]
