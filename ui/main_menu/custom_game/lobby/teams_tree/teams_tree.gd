@@ -2,6 +2,16 @@ class_name TeamsTree
 extends Tree
 
 
+enum SlotType {
+	COMPUTER = -1,
+	EMPTY_SLOT,
+	HOST, # This and all next numbers correspond to player IDs (host is 1)
+}
+
+const _team_index: String = "team_index"
+const _team_players: String = "team_players"
+const _slot_value: String = "slot_type"
+
 var _teams_enabled: bool = true
 var _players_count: int = 1
 var _teams_count: int = 2
@@ -24,61 +34,89 @@ func set_teams_enabled(_enable: bool) -> void:
 		var child: TreeItem = root.get_children()
 		assert(child.get_next() == null, "Root should contain only a single child with all players")
 		child.free()
-		set_teams_count(_teams_count)
+		_update_teams_count()
 	else:
-		for team in _get_children(root):
-			team.free()
-		var players: TreeItem = create_item(root)
-		players.set_text(0, "Players")
-		for index in range(_players_count):
-			_create_slot(players, index)
+		var teams: Array = _get_children(root)
+		_free_array(teams, 1, teams.size()) # Remove all teams except first
+		teams.front().set_text(0, "Players")
+		_update_players_count()
 
 
 func set_players_count(count: int) -> void:
 	_players_count = count
-	if _teams_enabled:
-		return
-
-	_set_children_count(get_root().get_children(), "_create_slot", count)
+	if !_teams_enabled:
+		_update_players_count()
 
 
 func set_teams_count(count: int) -> void:
 	_teams_count = count
-	if !_teams_enabled:
-		return
-
-	_set_children_count(get_root(), "_create_team", count)
+	if _teams_enabled:
+		_update_teams_count()
 
 
 func set_players_in_team(count: int) -> void:
 	_players_in_team = count
-	if !_teams_enabled:
+	if _teams_enabled:
+		_update_players_in_team_count()
+
+
+func _update_players_count() -> void:
+	assert(!_teams_enabled, "Should be called only when teams disabled")
+	var players: TreeItem = get_root().get_children()
+	var slots: Array = _get_children(players)
+	if slots.size() > _players_count:
+		_free_array(slots, _players_count, slots.size())
 		return
 
+	for _index in range(slots.size(), _players_count):
+		var slot: TreeItem = create_item(players)
+		_set_slot(slot, SlotType.EMPTY_SLOT)
+
+
+func _update_teams_count() -> void:
+	assert(_teams_enabled, "Should be called only when teams enabled")
+	var root: TreeItem = get_root()
+	var teams: Array = _get_children(root)
+	if teams.size() > _teams_count:
+		_free_array(teams, _teams_count, teams.size())
+		return
+
+	for index in range(teams.size(), _teams_count):
+		var team: TreeItem = create_item(root)
+		team.set_meta(_team_index, index)
+		team.set_meta(_team_players, 0)
+		for _slot_index in range(_players_in_team):
+			var slot: TreeItem = create_item(team)
+			_set_slot(slot, SlotType.EMPTY_SLOT)
+		_update_team_text(team)
+
+
+func _update_players_in_team_count() -> void:
+	assert(_teams_enabled, "Should be called only when teams enabled")
 	for team in _get_children(get_root()):
-		_set_children_count(team, "_create_slot", count)
+		var slots: Array = _get_children(team)
+		if slots.size() > _players_in_team:
+			_free_array(slots, _players_in_team, slots.size())
+		else:
+			for _index in range(slots.size(), _players_in_team):
+				var slot: TreeItem = create_item(team)
+				_set_slot(slot, SlotType.EMPTY_SLOT)
+		_update_team_text(team)
 
 
-func _set_children_count(parent: TreeItem, create_func: String, count: int) -> void:
-	var children: Array = _get_children(parent)
-	if children.size() < count:
-		for index in range(children.size(), count):
-			call(create_func, parent, index)
-	else:
-		for index in range(count, children.size()):
-			children[index].free()
+func _update_team_text(team: TreeItem) -> void:
+	team.set_text(0, "Team %d (%d/%d)" % [team.get_meta(_team_index), team.get_meta(_team_players), _players_in_team])
 
 
-func _create_team(root: TreeItem, team_index: int) -> void:
-	var team: TreeItem = create_item(root)
-	team.set_text(0, "Team %d (0/%d)" % [team_index, _players_in_team])
-	for index in range(_players_in_team):
-		_create_slot(team, index)
-
-
-func _create_slot(team: TreeItem, slot_index: int) -> void:
-	var slot: TreeItem = create_item(team)
-	slot.set_text(0, "Empty slot %d" % slot_index)
+func _set_slot(slot: TreeItem, value: int) -> void:
+	slot.set_meta(_slot_value, value)
+	match value:
+		SlotType.COMPUTER:
+			slot.set_text(0, "Computer")
+		SlotType.EMPTY_SLOT:
+			slot.set_text(0, "Empty slot")
+		_:
+			slot.set_text(0, str(value))
 
 
 func _get_children(parent: TreeItem) -> Array:
@@ -89,3 +127,8 @@ func _get_children(parent: TreeItem) -> Array:
 		children.push_back(child)
 		child = child.get_next()
 	return children
+
+
+func _free_array(array: Array, begin: int, end: int) -> void:
+	for index in range(begin, end):
+		array[index].free()
