@@ -21,7 +21,7 @@ var _players_in_team: int = 1
 func _ready():
 	# warning-ignore:return_value_discarded
 	create_item() # Create root
-	set_teams_count(2)
+	_update_teams_count() # Build tree with the default values
 
 
 func set_teams_enabled(_enable: bool) -> void:
@@ -87,7 +87,11 @@ func _update_teams_count() -> void:
 		team.set_meta(_team_players, 0)
 		for _slot_index in range(_players_in_team):
 			var slot: TreeItem = create_item(team)
-			_set_slot(slot, SlotType.EMPTY_SLOT)
+			if index == 0 && _slot_index == 0:
+				_set_slot(slot, 1) # Set host
+				team.set_meta(_team_players, 1)
+			else:
+				_set_slot(slot, SlotType.EMPTY_SLOT)
 		_update_team_text(team)
 
 
