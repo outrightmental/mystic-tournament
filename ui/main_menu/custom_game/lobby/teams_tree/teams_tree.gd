@@ -12,16 +12,29 @@ const _team_index: String = "team_index"
 const _team_players: String = "team_players"
 const _slot_value: String = "slot_type"
 
-var _teams_enabled: bool = true
-var _players_count: int = 1
-var _teams_count: int = 2
-var _players_in_team: int = 1
+puppet var _teams_enabled: bool = true
+puppet var _players_count: int = 1
+puppet var _teams_count: int = 2
+puppet var _players_in_team: int = 1
 
 
 func _ready():
 	# warning-ignore:return_value_discarded
 	create_item() # Create root
-	_update_teams_count() # Build tree with the default values
+	# warning-ignore:return_value_discarded
+	get_tree().connect("network_peer_connected", self, "_sync_connected_peer")
+
+
+func create() -> void:
+	if _teams_enabled:
+		_update_teams_count()
+	else:
+		_update_players_count()
+
+
+func clear() -> void:
+	var children: Array = _get_children(get_root())
+	_free_array(children, 0, children.size())
 
 
 func set_teams_enabled(_enable: bool) -> void:
@@ -60,7 +73,7 @@ func set_players_in_team(count: int) -> void:
 		_update_players_in_team_count()
 
 
-func _update_players_count() -> void:
+puppet func _update_players_count() -> void:
 	assert(!_teams_enabled, "Should be called only when teams disabled")
 	var players: TreeItem = get_root().get_children()
 	var slots: Array = _get_children(players)
@@ -73,7 +86,7 @@ func _update_players_count() -> void:
 		_set_slot(slot, SlotType.EMPTY_SLOT)
 
 
-func _update_teams_count() -> void:
+puppet func _update_teams_count() -> void:
 	assert(_teams_enabled, "Should be called only when teams enabled")
 	var root: TreeItem = get_root()
 	var teams: Array = _get_children(root)
@@ -108,6 +121,20 @@ func _update_players_in_team_count() -> void:
 		_update_team_text(team)
 
 
+func _sync_connected_peer(id: int) -> void:
+	if !get_tree().is_network_server():
+		return
+	
+	rset_id(id, "_teams_enabled", _teams_enabled)
+	rset_id(id, "_players_count", _players_count)
+	rset_id(id, "_teams_count", _teams_count)
+	rset_id(id, "_players_in_team", _players_in_team)
+	if _teams_enabled:
+		rpc_id(id, "_update_teams_count")
+	else:
+		rpc_id(id, "_update_players_count")
+
+
 func _update_team_text(team: TreeItem) -> void:
 	team.set_text(0, "Team %d (%d/%d)" % [team.get_meta(_team_index), team.get_meta(_team_players), _players_in_team])
 
@@ -120,7 +147,7 @@ func _set_slot(slot: TreeItem, value: int) -> void:
 		SlotType.EMPTY_SLOT:
 			slot.set_text(0, "Empty slot")
 		_:
-			slot.set_text(0, str(value))
+			slot.set_text(0, str(value)) # TODO: Get nickname
 
 
 func _get_children(parent: TreeItem) -> Array:

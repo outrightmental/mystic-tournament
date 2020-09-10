@@ -22,6 +22,7 @@ func create() -> void:
 	# TODO: Display all addresses here
 	_addresses_edit.text = IP.get_local_addresses().front()
 	_set_configurable(true)
+	teams_tree.create()
 
 
 func join(address: String, port: int) -> void:
@@ -51,6 +52,7 @@ func leave() -> void:
 func _close():
 	get_tree().network_peer = null
 	_set_configurable(false)
+	teams_tree.clear()
 	emit_signal("leaved")
 
 
