@@ -24,13 +24,13 @@ func _set_teams_editable(editable: bool) -> void:
 		# warning-ignore:return_value_discarded
 		_server_settings.teams_enabled.connect("toggled", _lobby.teams_tree, "set_teams_enabled")
 		# warning-ignore:return_value_discarded
-		_server_settings.players_count.connect("value_changed", _lobby.teams_tree, "set_players_count")
+		_server_settings.slots_count.connect("value_changed", _lobby.teams_tree, "set_slots_count")
 		# warning-ignore:return_value_discarded
 		_server_settings.teams_count.connect("value_changed", _lobby.teams_tree, "set_teams_count")
 		# warning-ignore:return_value_discarded
-		_server_settings.players_in_team.connect("value_changed", _lobby.teams_tree, "set_players_in_team")
+		_server_settings.slots_in_team.connect("value_changed", _lobby.teams_tree, "set_slots_in_team")
 	else:
 		_server_settings.teams_enabled.disconnect("toggled", _lobby.teams_tree, "set_teams_enabled")
-		_server_settings.players_count.disconnect("value_changed", _lobby.teams_tree, "set_players_count")
+		_server_settings.slots_count.disconnect("value_changed", _lobby.teams_tree, "set_slots_count")
 		_server_settings.teams_count.disconnect("value_changed", _lobby.teams_tree, "set_teams_count")
-		_server_settings.players_in_team.disconnect("value_changed", _lobby.teams_tree, "set_players_in_team")
+		_server_settings.slots_in_team.disconnect("value_changed", _lobby.teams_tree, "set_slots_in_team")

@@ -39,10 +39,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/main_menu/custom_game/server_settings/server_settings.gd"
 }, {
+"base": "Node",
+"class": "Slot",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/lobby/teams_tree/slot.gd"
+}, {
+"base": "Node",
+"class": "Team",
+"language": "GDScript",
+"path": "res://ui/main_menu/custom_game/lobby/teams_tree/team.gd"
+}, {
 "base": "Tree",
 "class": "TeamsTree",
 "language": "GDScript",
 "path": "res://ui/main_menu/custom_game/lobby/teams_tree/teams_tree.gd"
+}, {
+"base": "Reference",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://core/utils.gd"
 } ]
 _global_script_class_icons={
 "ConnectionDialog": "",
@@ -51,7 +66,10 @@ _global_script_class_icons={
 "ExitDialog": "",
 "Lobby": "",
 "ServerSettings": "",
-"TeamsTree": ""
+"Slot": "",
+"Team": "",
+"TeamsTree": "",
+"Utils": ""
 }
 
 [application]
