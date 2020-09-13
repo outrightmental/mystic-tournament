@@ -13,16 +13,20 @@ func back() -> void:
 		hide()
 
 
-func _switch_panels() -> void:
-	_servers.visible = !_servers.visible
-	_lobby.visible = !_lobby.visible
+func _switch_to_servers() -> void:
+	_servers.visible = true
+	_lobby.visible = false
+
+
+func _switch_to_lobby() -> void:
+	_servers.visible = false
+	_lobby.visible = true
 
 
 func _create_lobby() -> void:
 	_lobby.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
 
-	_servers.visible = false
-	_lobby.visible = true
+	_switch_to_lobby()
 
 
 func _set_teams_editable(editable: bool) -> void:
