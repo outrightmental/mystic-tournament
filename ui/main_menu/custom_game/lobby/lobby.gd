@@ -18,11 +18,11 @@ onready var _addresses_edit: LineEdit = $VBox/Grid/AddressesEdit
 onready var _port_spin: SpinBox = $VBox/Grid/PortSpin
 
 
-func create() -> void:
+func create(teams_count: int, slots_count: int) -> void:
 	# TODO: Display all addresses here
 	_addresses_edit.text = IP.get_local_addresses().front()
 	_set_configurable(true)
-	teams_tree.create()
+	teams_tree.create(teams_count, slots_count)
 
 
 func join(address: String, port: int) -> void:

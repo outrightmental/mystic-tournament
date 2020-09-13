@@ -3,7 +3,7 @@
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.gd" type="Script" id=1]
 
 [node name="ServerSettings" type="PanelContainer"]
-margin_right = 195.0
+margin_right = 178.0
 margin_bottom = 94.0
 script = ExtResource( 1 )
 __meta__ = {
@@ -13,37 +13,19 @@ __meta__ = {
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 188.0
-margin_bottom = 115.0
+margin_right = 171.0
+margin_bottom = 87.0
 
 [node name="TeamsEnabled" type="CheckBox" parent="VBox"]
-margin_right = 181.0
+margin_right = 164.0
 margin_bottom = 24.0
 pressed = true
 text = "Teams enabled"
 
-[node name="SlotsCount" type="HBoxContainer" parent="VBox"]
-margin_top = 28.0
-margin_right = 181.0
-margin_bottom = 52.0
-
-[node name="Label" type="Label" parent="VBox/SlotsCount"]
-margin_top = 5.0
-margin_right = 90.0
-margin_bottom = 19.0
-text = "Slots count:"
-
-[node name="SpinBox" type="SpinBox" parent="VBox/SlotsCount"]
-margin_left = 94.0
-margin_right = 168.0
-margin_bottom = 24.0
-min_value = 1.0
-value = 1.0
-
 [node name="TeamsCount" type="HBoxContainer" parent="VBox"]
-margin_top = 56.0
-margin_right = 181.0
-margin_bottom = 80.0
+margin_top = 28.0
+margin_right = 164.0
+margin_bottom = 52.0
 
 [node name="Label" type="Label" parent="VBox/TeamsCount"]
 margin_top = 5.0
@@ -59,21 +41,23 @@ min_value = 2.0
 max_value = 6.0
 value = 2.0
 
-[node name="SlotsInTeamCount" type="HBoxContainer" parent="VBox"]
-margin_top = 84.0
-margin_right = 181.0
-margin_bottom = 108.0
+[node name="SlotsCount" type="HBoxContainer" parent="VBox"]
+margin_top = 56.0
+margin_right = 164.0
+margin_bottom = 80.0
 
-[node name="Label" type="Label" parent="VBox/SlotsInTeamCount"]
+[node name="Label" type="Label" parent="VBox/SlotsCount"]
 margin_top = 5.0
-margin_right = 103.0
+margin_right = 75.0
 margin_bottom = 19.0
-text = "Slots in team:"
+text = "Slots count:"
 
-[node name="SpinBox" type="SpinBox" parent="VBox/SlotsInTeamCount"]
-margin_left = 107.0
-margin_right = 181.0
+[node name="SpinBox" type="SpinBox" parent="VBox/SlotsCount"]
+margin_left = 79.0
+margin_right = 153.0
 margin_bottom = 24.0
 min_value = 1.0
 value = 1.0
 [connection signal="toggled" from="VBox/TeamsEnabled" to="." method="_set_teams_enabled"]
+[connection signal="value_changed" from="VBox/TeamsCount/SpinBox" to="." method="_emit_teams_count_changed"]
+[connection signal="value_changed" from="VBox/SlotsCount/SpinBox" to="." method="_emit_slots_count_changed"]
