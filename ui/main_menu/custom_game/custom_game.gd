@@ -4,6 +4,7 @@ extends HBoxContainer
 onready var _servers: PanelContainer = $Servers
 onready var _lobby: Lobby = $Lobby
 onready var _server_settings: ServerSettings = $ServerSettings
+onready var _direct_connect_dialog: DirectConnectDialog = $DirectConnectDialog
 
 
 func back() -> void:
@@ -27,6 +28,10 @@ func _create_lobby() -> void:
 	_lobby.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
 
 	_switch_to_lobby()
+
+
+func _direct_join_lobby() -> void:
+	_lobby.join(_direct_connect_dialog.address, _direct_connect_dialog.port)
 
 
 func _set_teams_editable(editable: bool) -> void:

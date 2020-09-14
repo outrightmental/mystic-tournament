@@ -62,4 +62,3 @@ margin_bottom = 52.0
 size_flags_horizontal = 0
 max_value = 65535.0
 value = 6666.0
-[connection signal="confirmed" from="." to="." method="_confirm_connection"]
