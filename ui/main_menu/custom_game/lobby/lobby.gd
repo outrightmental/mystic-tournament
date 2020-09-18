@@ -4,18 +4,26 @@ extends PanelContainer
 
 
 signal joined
+signal join_failed
+signal create_failed
 signal leaved
 signal configurable_changed(configurable)
 
 var _configurable: bool
+var _peer := NetworkedMultiplayerENet.new()
 
 onready var teams_tree: TeamsTree = $VBox/TeamsTree
-onready var _error_dialog: ErrorDialog = $ErrorDialog
-onready var _connection_dialog: ConnectionDialog = $ConnectionDialog
 onready var _leave_dialog: ConfirmationDialog = $LeaveDialog
 onready var _server_name_edit: LineEdit = $VBox/Grid/ServerNameEdit
 onready var _addresses_edit: LineEdit = $VBox/Grid/AddressesEdit
 onready var _port_spin: SpinBox = $VBox/Grid/PortSpin
+
+
+func _init() -> void:
+	# warning-ignore:return_value_discarded
+	_peer.connect("connection_succeeded", self, "_on_successful_connection")
+	# warning-ignore:return_value_discarded
+	_peer.connect("connection_failed", self, "_on_failed_connection")
 
 
 func create(teams_count: int, slots_count: int) -> void:
@@ -25,20 +33,17 @@ func create(teams_count: int, slots_count: int) -> void:
 	teams_tree.create(teams_count, slots_count)
 
 
-func join(address: String, port: int) -> void:
-	var peer: = NetworkedMultiplayerENet.new()
-	var result: int = peer.create_client(address, port)
-	if result != OK:
-		_error_dialog.show_error("Unable to create connection")
-		return
+func join(address: String, port: int) -> int:
+	var result: int = _peer.create_client(address, port)
+	if result == OK:
+		get_tree().network_peer = _peer
 
-	_connection_dialog.show_connecting(address, port)
-	get_tree().network_peer = peer
+	return result
 
-	# warning-ignore:return_value_discarded
-	get_tree().connect("connected_to_server", self, "_process_successful_join", [], CONNECT_ONESHOT)
-	# warning-ignore:return_value_discarded
-	get_tree().connect("connection_failed", self, "_process_failed_join", [], CONNECT_ONESHOT)
+
+func close_connection() -> void:
+	_peer.close_connection()
+	get_tree().network_peer = null
 
 
 func leave() -> void:
@@ -49,47 +54,30 @@ func leave() -> void:
 		_leave_dialog.popup_centered()
 
 
-func _close():
-	get_tree().network_peer = null
+func _confirm_creation() -> void:
+	var result: int = _peer.create_server(int(_port_spin.value))
+	if result != OK:
+		emit_signal("create_failed")
+		return
+
+	get_tree().network_peer = _peer
 	_set_configurable(false)
+
+
+func _close():
+	close_connection()
 	teams_tree.clear()
 	emit_signal("leaved")
 
 
-func _cancel_join() -> void:
-	get_tree().disconnect("connected_to_server", self, "_process_successful_join")
-	get_tree().disconnect("connection_failed", self, "_process_failed_join")
-	get_tree().network_peer = null
-
-
-func _process_successful_join() -> void:
-	# Stop listening for failed connection
-	get_tree().disconnect("connection_failed", self, "_process_failed_join")
-
-	_connection_dialog.hide()
+func _on_successful_connection() -> void:
 	_set_configurable(false)
-	set_process_unhandled_input(true)
 	emit_signal("joined")
 
 
-func _process_failed_join() -> void:
-	# Stop listening for success connection
-	get_tree().disconnect("connected_to_server", self, "_process_successful_join")
-	
+func _on_failed_connection() -> void:
 	get_tree().network_peer = null
-	_connection_dialog.hide()
-	_error_dialog.show_error("Unable to join lobby")
-
-
-func _confirm_creation() -> void:
-	var peer: = NetworkedMultiplayerENet.new()
-	var result: int = peer.create_server(int(_port_spin.value))
-	if result != OK:
-		_error_dialog.show_error("Unable to create server")
-		return
-
-	get_tree().network_peer = peer
-	_set_configurable(false)
+	emit_signal("join_failed")	
 
 
 func _set_configurable(configurable: bool) -> void:

@@ -1,7 +1,5 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://ui/main_menu/custom_game/lobby/error_dialog/error_dialog.tscn" type="PackedScene" id=1]
-[ext_resource path="res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.gd" type="Script" id=3]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/teams_tree/teams_tree.tscn" type="PackedScene" id=4]
 
@@ -12,11 +10,6 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ConnectionDialog" parent="." instance=ExtResource( 2 )]
-
-[node name="ErrorDialog" parent="." instance=ExtResource( 1 )]
-margin_right = 78.0
 
 [node name="LeaveDialog" type="ConfirmationDialog" parent="."]
 margin_right = 283.0
@@ -111,6 +104,5 @@ text = "Create"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="canceled" from="ConnectionDialog" to="." method="_cancel_join"]
 [connection signal="confirmed" from="LeaveDialog" to="." method="_close"]
 [connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_creation"]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ui/main_menu/custom_game/custom_game.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/main_menu/custom_game/lobby/error_dialog/error_dialog.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/main_menu/custom_game/direct_connect_dialog/direct_coonect_dialog.tscn" type="PackedScene" id=7]
 
 [node name="CustomGame" type="HBoxContainer"]
@@ -99,9 +101,17 @@ margin_right = 1344.0
 margin_bottom = 756.0
 
 [node name="DirectConnectDialog" parent="." instance=ExtResource( 7 )]
+
+[node name="ConnectionDialog" parent="." instance=ExtResource( 4 )]
+
+[node name="ErrorDialog" parent="." instance=ExtResource( 5 )]
+margin_right = 78.0
 [connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="." method="_create_lobby"]
 [connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="DirectConnectDialog" method="popup_centered"]
 [connection signal="configurable_changed" from="Lobby" to="." method="_set_teams_editable"]
-[connection signal="joined" from="Lobby" to="." method="_switch_to_lobby"]
+[connection signal="create_failed" from="Lobby" to="." method="_on_creation_error"]
+[connection signal="join_failed" from="Lobby" to="." method="_on_failed_join"]
+[connection signal="joined" from="Lobby" to="." method="_on_successful_join"]
 [connection signal="leaved" from="Lobby" to="." method="_switch_to_servers"]
 [connection signal="confirmed" from="DirectConnectDialog" to="." method="_direct_join_lobby"]
+[connection signal="canceled" from="ConnectionDialog" to="Lobby" method="close_connection"]
