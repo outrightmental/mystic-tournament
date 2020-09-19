@@ -54,6 +54,11 @@ func _on_creation_error() -> void:
 	_error_dialog.show_error("Unable to create server")
 
 
+func _on_server_disconnected() -> void:
+	_switch_to_servers()
+	_error_dialog.show_error("Server was disconnected")
+
+
 func _set_teams_editable(editable: bool) -> void:
 	_server_settings.set_editable(editable)
 	if editable:

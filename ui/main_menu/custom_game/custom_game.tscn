@@ -113,5 +113,6 @@ margin_right = 78.0
 [connection signal="join_failed" from="Lobby" to="." method="_on_failed_join"]
 [connection signal="joined" from="Lobby" to="." method="_on_successful_join"]
 [connection signal="leaved" from="Lobby" to="." method="_switch_to_servers"]
+[connection signal="server_disconnected" from="Lobby" to="." method="_on_server_disconnected"]
 [connection signal="confirmed" from="DirectConnectDialog" to="." method="_direct_join_lobby"]
 [connection signal="canceled" from="ConnectionDialog" to="Lobby" method="close_connection"]

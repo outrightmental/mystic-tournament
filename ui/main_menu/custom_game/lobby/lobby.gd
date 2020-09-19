@@ -6,6 +6,7 @@ extends PanelContainer
 signal joined
 signal join_failed
 signal create_failed
+signal server_disconnected
 signal leaved
 signal configurable_changed(configurable)
 
@@ -24,6 +25,8 @@ func _init() -> void:
 	_peer.connect("connection_succeeded", self, "_on_successful_connection")
 	# warning-ignore:return_value_discarded
 	_peer.connect("connection_failed", self, "_on_failed_connection")
+	# warning-ignore:return_value_discarded
+	_peer.connect("server_disconnected", self, "_on_server_disconnected")
 
 
 func create(teams_count: int, slots_count: int) -> void:
@@ -78,6 +81,11 @@ func _on_successful_connection() -> void:
 func _on_failed_connection() -> void:
 	get_tree().network_peer = null
 	emit_signal("join_failed")	
+
+
+func _on_server_disconnected() -> void:
+	get_tree().network_peer = null
+	emit_signal("server_disconnected")	
 
 
 func _set_configurable(configurable: bool) -> void:
