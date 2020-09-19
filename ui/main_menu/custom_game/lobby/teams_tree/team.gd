@@ -11,19 +11,23 @@ var _tree: Tree
 var _tree_item: TreeItem
 var _slots: Array
 var _used_slots: int = 0
+var _enable_text_updates: bool = false
 
 
 func _init(tree: Tree, number: int, slots: int) -> void:
 	_tree = tree
 	_tree_item = _tree.create_item(_tree.get_root())
-	team_number = number
+	self.team_number = number
 	self.slots_count = slots
+
+	# Update team text after initialization
+	_enable_text_updates = true
+	_update_text()
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_tree_item.free()
-		pass
 
 
 func set_team_number(number: int) -> void:
@@ -64,6 +68,9 @@ func _update_used_slots(previous_slot_id: int, current_slot_id: int) -> void:
 
 
 func _update_text() -> void:
+	if not _enable_text_updates:
+		return
+
 	if team_number == NO_TEAM_NUMBER:
 		_tree_item.set_text(0, "Players (%d/%d)" % [_used_slots, _slots.size()])
 	else:
