@@ -4,7 +4,6 @@ extends HBoxContainer
 onready var _servers: PanelContainer = $Servers
 onready var _lobby: Lobby = $Lobby
 onready var _server_settings: ServerSettings = $ServerSettings
-onready var _direct_connect_dialog: DirectConnectDialog = $DirectConnectDialog
 onready var _error_dialog: ErrorDialog = $ErrorDialog
 onready var _connection_dialog: ConnectionDialog = $ConnectionDialog
 
@@ -16,28 +15,18 @@ func back() -> void:
 		hide()
 
 
-func _switch_to_servers() -> void:
-	_servers.visible = true
-	_lobby.visible = false
-
-
-func _switch_to_lobby() -> void:
-	_servers.visible = false
-	_lobby.visible = true
-
-
 func _create_lobby() -> void:
 	_lobby.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
 
 	_switch_to_lobby()
 
 
-func _direct_join_lobby() -> void:
-	if _lobby.join(_direct_connect_dialog.address, _direct_connect_dialog.port) != OK:
+func _join_lobby(address: String, port: int) -> void:
+	if _lobby.join(address, port) != OK:
 		_error_dialog.show_error("Unable to create connection")
 		return
 
-	_connection_dialog.show_connecting(_direct_connect_dialog.address, _direct_connect_dialog.port)
+	_connection_dialog.show_connecting(address, port)
 
 
 func _on_successful_join() -> void:
@@ -57,6 +46,16 @@ func _on_creation_error() -> void:
 func _on_server_disconnected() -> void:
 	_switch_to_servers()
 	_error_dialog.show_error("Server was disconnected")
+
+
+func _switch_to_servers() -> void:
+	_servers.visible = true
+	_lobby.visible = false
+
+
+func _switch_to_lobby() -> void:
+	_servers.visible = false
+	_lobby.visible = true
 
 
 func _set_teams_editable(editable: bool) -> void:

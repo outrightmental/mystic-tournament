@@ -3,9 +3,9 @@
 [ext_resource path="res://ui/main_menu/custom_game/custom_game.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ui/main_menu/custom_game/lobby/error_dialog/error_dialog.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ui/main_menu/custom_game/direct_connect_dialog/direct_coonect_dialog.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ui/main_menu/custom_game/connection_dialog/connection_dialog.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/main_menu/custom_game/error_dialog/error_dialog.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/main_menu/custom_game/servers/servers.tscn" type="PackedScene" id=6]
 
 [node name="CustomGame" type="HBoxContainer"]
 anchor_left = 0.15
@@ -17,78 +17,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Servers" type="PanelContainer" parent="."]
-margin_right = 1162.0
-margin_bottom = 756.0
-rect_min_size = Vector2( 600, 200 )
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBox" type="VBoxContainer" parent="Servers"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1155.0
-margin_bottom = 749.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBox" type="HBoxContainer" parent="Servers/VBox"]
-margin_left = 731.0
-margin_right = 1148.0
-margin_bottom = 24.0
-size_flags_horizontal = 8
-
-[node name="FilterEdit" type="LineEdit" parent="Servers/VBox/HBox"]
-margin_right = 250.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 250, 0 )
-placeholder_text = "Search"
-caret_blink = true
-caret_blink_speed = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateButton" type="Button" parent="Servers/VBox/HBox"]
-margin_left = 254.0
-margin_right = 307.0
-margin_bottom = 24.0
-text = "Create"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DirectConnectButton" type="Button" parent="Servers/VBox/HBox"]
-margin_left = 311.0
-margin_right = 417.0
-margin_bottom = 24.0
-text = "Direct connect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ServersTable" type="Tree" parent="Servers/VBox"]
-margin_top = 28.0
-margin_right = 1148.0
-margin_bottom = 718.0
-size_flags_vertical = 3
-columns = 3
-select_mode = 1
-
-[node name="JoinButton" type="Button" parent="Servers/VBox"]
-margin_left = 556.0
-margin_top = 722.0
-margin_right = 591.0
-margin_bottom = 742.0
-size_flags_horizontal = 4
-disabled = true
-text = "Join"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Servers" parent="." instance=ExtResource( 6 )]
 
 [node name="Lobby" parent="." instance=ExtResource( 3 )]
 visible = false
@@ -100,19 +29,16 @@ margin_left = 1166.0
 margin_right = 1344.0
 margin_bottom = 756.0
 
-[node name="DirectConnectDialog" parent="." instance=ExtResource( 7 )]
-
 [node name="ConnectionDialog" parent="." instance=ExtResource( 4 )]
 
 [node name="ErrorDialog" parent="." instance=ExtResource( 5 )]
 margin_right = 78.0
-[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="." method="_create_lobby"]
-[connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="DirectConnectDialog" method="popup_centered"]
+[connection signal="create_requested" from="Servers" to="." method="_create_lobby"]
+[connection signal="join_requested" from="Servers" to="." method="_join_lobby"]
 [connection signal="configurable_changed" from="Lobby" to="." method="_set_teams_editable"]
 [connection signal="create_failed" from="Lobby" to="." method="_on_creation_error"]
 [connection signal="join_failed" from="Lobby" to="." method="_on_failed_join"]
 [connection signal="joined" from="Lobby" to="." method="_on_successful_join"]
 [connection signal="leaved" from="Lobby" to="." method="_switch_to_servers"]
 [connection signal="server_disconnected" from="Lobby" to="." method="_on_server_disconnected"]
-[connection signal="confirmed" from="DirectConnectDialog" to="." method="_direct_join_lobby"]
 [connection signal="canceled" from="ConnectionDialog" to="Lobby" method="close_connection"]

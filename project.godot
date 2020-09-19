@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "WindowDialog",
 "class": "ConnectionDialog",
 "language": "GDScript",
-"path": "res://ui/main_menu/custom_game/lobby/connection_dialog/connection_dialog.gd"
+"path": "res://ui/main_menu/custom_game/connection_dialog/connection_dialog.gd"
 }, {
 "base": "Reference",
 "class": "ControlUtils",
@@ -22,12 +22,12 @@ _global_script_classes=[ {
 "base": "ConfirmationDialog",
 "class": "DirectConnectDialog",
 "language": "GDScript",
-"path": "res://ui/main_menu/custom_game/direct_connect_dialog/direct_coonect_dialog.gd"
+"path": "res://ui/main_menu/custom_game/servers/direct_connect_dialog/direct_coonect_dialog.gd"
 }, {
 "base": "AcceptDialog",
 "class": "ErrorDialog",
 "language": "GDScript",
-"path": "res://ui/main_menu/custom_game/lobby/error_dialog/error_dialog.gd"
+"path": "res://ui/main_menu/custom_game/error_dialog/error_dialog.gd"
 }, {
 "base": "ConfirmationDialog",
 "class": "ExitDialog",
