@@ -8,9 +8,9 @@ signal join_failed
 signal create_failed
 signal server_disconnected
 signal leaved
-signal configurable_changed(configurable)
+signal editable_changed(editable)
 
-var _configurable: bool
+var _editable: bool
 var _peer := NetworkedMultiplayerENet.new()
 
 onready var teams_tree: TeamsTree = $VBox/TeamsTree
@@ -32,7 +32,7 @@ func _init() -> void:
 func create(teams_count: int, slots_count: int) -> void:
 	# TODO: Display all addresses here
 	_addresses_edit.text = IP.get_local_addresses().front()
-	_set_configurable(true)
+	_set_editable(true)
 	teams_tree.create(teams_count, slots_count)
 
 
@@ -50,7 +50,7 @@ func close_connection() -> void:
 
 
 func leave() -> void:
-	if _configurable:
+	if _editable:
 		# Just close if the lobby is not configured
 		_close()
 	else:
@@ -64,7 +64,7 @@ func _confirm_creation() -> void:
 		return
 
 	get_tree().network_peer = _peer
-	_set_configurable(false)
+	_set_editable(false)
 
 
 func _close():
@@ -74,7 +74,7 @@ func _close():
 
 
 func _on_successful_connection() -> void:
-	_set_configurable(false)
+	_set_editable(false)
 	emit_signal("joined")
 
 
@@ -88,10 +88,10 @@ func _on_server_disconnected() -> void:
 	emit_signal("server_disconnected")	
 
 
-func _set_configurable(configurable: bool) -> void:
-	if configurable == _configurable:
+func _set_editable(editable: bool) -> void:
+	if editable == _editable:
 		return
-	_configurable = configurable
-	_port_spin.editable = _configurable
-	_server_name_edit.editable = _configurable
-	emit_signal("configurable_changed", _configurable)
+	_editable = editable
+	_port_spin.editable = _editable
+	_server_name_edit.editable = _editable
+	emit_signal("editable_changed", _editable)

@@ -38,8 +38,8 @@ window_title = "Error"
 script = ExtResource( 5 )
 [connection signal="create_requested" from="Servers" to="." method="_create_lobby"]
 [connection signal="join_requested" from="Servers" to="." method="_join_lobby"]
-[connection signal="configurable_changed" from="Lobby" to="." method="_set_teams_editable"]
 [connection signal="create_failed" from="Lobby" to="." method="_on_creation_error"]
+[connection signal="editable_changed" from="Lobby" to="." method="_set_teams_editable"]
 [connection signal="join_failed" from="Lobby" to="." method="_on_failed_join"]
 [connection signal="joined" from="Lobby" to="." method="_on_successful_join"]
 [connection signal="leaved" from="Lobby" to="." method="_switch_to_servers"]
