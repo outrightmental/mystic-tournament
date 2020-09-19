@@ -4,7 +4,7 @@
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/main_menu/custom_game/connection_dialog/connection_dialog.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ui/main_menu/custom_game/error_dialog/error_dialog.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/main_menu/custom_game/error_dialog.gd" type="Script" id=5]
 [ext_resource path="res://ui/main_menu/custom_game/servers/servers.tscn" type="PackedScene" id=6]
 
 [node name="CustomGame" type="HBoxContainer"]
@@ -31,8 +31,11 @@ margin_bottom = 756.0
 
 [node name="ConnectionDialog" parent="." instance=ExtResource( 4 )]
 
-[node name="ErrorDialog" parent="." instance=ExtResource( 5 )]
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
 margin_right = 78.0
+margin_bottom = 58.0
+window_title = "Error"
+script = ExtResource( 5 )
 [connection signal="create_requested" from="Servers" to="." method="_create_lobby"]
 [connection signal="join_requested" from="Servers" to="." method="_join_lobby"]
 [connection signal="configurable_changed" from="Lobby" to="." method="_set_teams_editable"]

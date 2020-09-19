@@ -3,7 +3,7 @@
 [ext_resource path="res://ui/main_menu/main_menu.tres" type="Theme" id=1]
 [ext_resource path="res://ui/main_menu/custom_game/custom_game.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/main_menu/main_menu.gd" type="Script" id=3]
-[ext_resource path="res://ui/main_menu/exit_dialog/exit_dialog.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/main_menu/exit_dialog.gd" type="Script" id=4]
 
 [sub_resource type="InputEventAction" id=1]
 action = "ui_cancel"
@@ -91,6 +91,12 @@ grow_horizontal = 0
 shortcut = SubResource( 2 )
 text = "Back (Esc)"
 
-[node name="ExitDialog" parent="." instance=ExtResource( 4 )]
+[node name="ExitDialog" type="ConfirmationDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 70.0
+window_title = "Please confirm exit"
+dialog_text = "Do you want to quit the game?"
+script = ExtResource( 4 )
 [connection signal="pressed" from="Buttons/CustomGameButton" to="." method="_open" binds= [ "CustomGame" ]]
 [connection signal="pressed" from="BackButton" to="." method="_back"]
+[connection signal="confirmed" from="ExitDialog" to="ExitDialog" method="_exit"]

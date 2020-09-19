@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://ui/main_menu/custom_game/lobby/teams_tree/teams_tree.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.gd" type="Script" id=3]
-[ext_resource path="res://ui/main_menu/custom_game/lobby/teams_tree/teams_tree.tscn" type="PackedScene" id=4]
 
 [node name="Lobby" type="PanelContainer"]
 rect_min_size = Vector2( 600, 200 )
@@ -75,11 +75,17 @@ size_flags_horizontal = 0
 max_value = 65535.0
 value = 6666.0
 
-[node name="TeamsTree" parent="VBox" instance=ExtResource( 4 )]
+[node name="TeamsTree" type="Tree" parent="VBox"]
 margin_top = 84.0
 margin_right = 586.0
 margin_bottom = 162.0
 size_flags_vertical = 3
+hide_folding = true
+hide_root = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBox" type="HBoxContainer" parent="VBox"]
 margin_left = 266.0

@@ -27,12 +27,12 @@ _global_script_classes=[ {
 "base": "AcceptDialog",
 "class": "ErrorDialog",
 "language": "GDScript",
-"path": "res://ui/main_menu/custom_game/error_dialog/error_dialog.gd"
+"path": "res://ui/main_menu/custom_game/error_dialog.gd"
 }, {
 "base": "ConfirmationDialog",
 "class": "ExitDialog",
 "language": "GDScript",
-"path": "res://ui/main_menu/exit_dialog/exit_dialog.gd"
+"path": "res://ui/main_menu/exit_dialog.gd"
 }, {
 "base": "PanelContainer",
 "class": "Lobby",
