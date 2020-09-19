@@ -28,11 +28,10 @@ func set_slots_count(count: int) -> void:
 func set_teams_count(count: int) -> void:
 	if count == 0:
 		_teams.front().team_number = Team.NO_TEAM_NUMBER
-		Utils.truncate_and_free(_teams, 1)
+		Utils.truncate_and_free(_teams, 1) # Remove all teams except one
 		return
-	else:
-		_teams.front().team_number = 1
 
+	_teams.front().team_number = 1
 	if _teams.size() > count:
 		Utils.truncate_and_free(_teams, count)
 		return
