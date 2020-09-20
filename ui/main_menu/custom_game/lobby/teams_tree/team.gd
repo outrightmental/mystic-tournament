@@ -10,8 +10,8 @@ var slots_count: int setget set_slots_count, get_slots_count
 var _tree: Tree
 var _tree_item: TreeItem
 var _slots: Array
-var _used_slots: int = 0
-var _enable_text_updates: bool = false
+var _used_slots_count: int
+var _enable_text_updates: bool
 
 
 func _init(tree: Tree, number: int, slots: int) -> void:
@@ -54,15 +54,15 @@ func get_slots_count() -> int:
 	return _slots.size()
 
 
-func set_slot_id(slot_index: int, id: int) -> void:
-	 _slots[slot_index].id = id
+func get_slot(slot_index: int) -> Slot:
+	 return _slots[slot_index]
 
 
 func _update_used_slots(previous_slot_id: int, current_slot_id: int) -> void:
 	if previous_slot_id == Slot.EMPTY_SLOT and current_slot_id != Slot.EMPTY_SLOT:
-		_used_slots += 1
+		_used_slots_count += 1
 	elif previous_slot_id != Slot.EMPTY_SLOT and current_slot_id == Slot.EMPTY_SLOT:
-		_used_slots -= 1
+		_used_slots_count -= 1
 
 	_update_text()
 
@@ -72,6 +72,6 @@ func _update_text() -> void:
 		return
 
 	if team_number == NO_TEAM_NUMBER:
-		_tree_item.set_text(0, "Players (%d/%d)" % [_used_slots, _slots.size()])
+		_tree_item.set_text(0, "Players (%d/%d)" % [_used_slots_count, _slots.size()])
 	else:
-		_tree_item.set_text(0, "Team %d (%d/%d)" % [team_number, _used_slots, _slots.size()])
+		_tree_item.set_text(0, "Team %d (%d/%d)" % [team_number, _used_slots_count, _slots.size()])

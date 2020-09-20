@@ -6,7 +6,7 @@ signal id_changed(previous, current)
 
 const EMPTY_SLOT = 0
 
-var id: int = EMPTY_SLOT
+var id: int = EMPTY_SLOT setget set_id
 
 var _tree_item: TreeItem
 
