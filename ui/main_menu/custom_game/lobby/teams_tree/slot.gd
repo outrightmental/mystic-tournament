@@ -6,14 +6,14 @@ signal id_changed(previous, current)
 
 const EMPTY_SLOT = 0
 
-var id: int = EMPTY_SLOT setget set_id
+var id: int = -1 setget set_id
 
 var _tree_item: TreeItem
 
 
-func _init(tree_item: TreeItem) -> void:
+func _init(tree_item: TreeItem, slot_id: int) -> void:
 	_tree_item = tree_item
-	_update_text()
+	self.id = slot_id
 
 
 func _notification(what: int) -> void:

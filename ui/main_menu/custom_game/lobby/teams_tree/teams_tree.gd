@@ -22,7 +22,7 @@ func clear() -> void:
 
 func set_slots_count(count: int) -> void:
 	for team in _teams:
-		team.slots_count = count
+		team.resize(count)
 
 
 func set_teams_count(count: int) -> void:
@@ -37,4 +37,4 @@ func set_teams_count(count: int) -> void:
 		return
 
 	for index in range(_teams.size(), count):
-		_teams.append(Team.new(self, index + 1, _teams.front().slots_count))
+		_teams.append(Team.new(self, index + 1, _teams.front().size()))
