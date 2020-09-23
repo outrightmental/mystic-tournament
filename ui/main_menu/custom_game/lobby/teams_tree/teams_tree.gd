@@ -15,8 +15,16 @@ func _ready():
 
 func create(teams_count: int, slots_count: int) -> void:
 	assert(_teams.empty(), "You should clear first")
-	for _index in range(teams_count):
-		_create_team(slots_count)
+	assert(slots_count >= 1, "The number of slots cannot be less than 1")
+	assert(teams_count >= 1, "The number of teams cannot be less than 1")
+	for index in range(teams_count):
+		if index == 0:
+			# First team should contain host
+			var slots: PoolIntArray = [Slot.HOST]
+			slots.resize(slots_count) # Will filled with zeroes that corresponds to EMPTY_SLOT
+			_create_team(slots)
+		else:
+			_create_team(slots_count)
 
 
 func clear() -> void:

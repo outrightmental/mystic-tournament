@@ -5,7 +5,11 @@ extends Node
 
 signal id_changed(previous, current)
 
-const EMPTY_SLOT = 0
+enum {
+	EMPTY_SLOT = 0,
+	HOST = 1,
+	# All values ​​after 1 corresponds to the player's unique identifier.
+}
 
 var id: int = -1 setget set_id
 
