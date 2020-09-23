@@ -1,6 +1,7 @@
 class_name Slot
 extends Node
-
+# Wrapper around TreeItem to represent team slot in Tree
+# It also extends Node to allow RPC synchronization
 
 signal id_changed(previous, current)
 

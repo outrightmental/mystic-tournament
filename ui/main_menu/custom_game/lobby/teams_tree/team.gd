@@ -1,6 +1,10 @@
 class_name Team
 extends Node
+# Wrapper around TreeItem to represent team in Tree
+# It also extends Node to allow RPC synchronization
 
+
+signal filled_changed(is_full)
 
 const NO_TEAM_NUMBER: int = -1
 
@@ -20,8 +24,7 @@ func _init(tree: Tree, number: int, slots) -> void:
 	team_number = number
 
 	if typeof(slots) == TYPE_INT_ARRAY:
-		for id in slots:
-			_create_slot(id)
+		_create_slots_from_ids(slots)
 	else:
 		resize(slots)
 
@@ -63,12 +66,26 @@ func get_slot_ids() -> PoolIntArray:
 	return array
 
 
+func is_full() -> bool:
+	return _slots.size() == _used_slots_count
+
+
 func _update_used_slots(previous_slot_id: int, current_slot_id: int) -> void:
 	if previous_slot_id == Slot.EMPTY_SLOT and current_slot_id != Slot.EMPTY_SLOT:
 		_used_slots_count += 1
+		if is_full():
+			emit_signal("filled_changed", true)
 	elif previous_slot_id != Slot.EMPTY_SLOT and current_slot_id == Slot.EMPTY_SLOT:
+		if is_full():
+			emit_signal("filled_changed", false)
 		_used_slots_count -= 1
 
+	_update_text()
+
+
+func _create_slots_from_ids(slots: PoolIntArray) -> void:
+	for id in slots:
+		_create_slot(id)
 	_update_text()
 
 

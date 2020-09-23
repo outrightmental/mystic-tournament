@@ -29,6 +29,13 @@ func _init() -> void:
 	_peer.connect("server_disconnected", self, "_on_server_disconnected")
 
 
+func _ready() -> void:
+	# warning-ignore:return_value_discarded
+	_peer.connect("peer_connected", teams_tree, "add_connected_player")
+	# warning-ignore:return_value_discarded
+	teams_tree.connect("filled_changed", _peer, "set_refuse_new_connections")
+
+
 func create(teams_count: int, slots_count: int) -> void:
 	# TODO: Display all addresses here
 	_addresses_edit.text = IP.get_local_addresses().front()
