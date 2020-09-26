@@ -16,8 +16,8 @@ func back() -> void:
 
 
 func _create_lobby() -> void:
-	_lobby.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
-
+	_lobby.create()
+	_server_settings.set_editable(true)
 	_switch_to_lobby()
 
 
@@ -29,17 +29,25 @@ func _join_lobby(address: String, port: int) -> void:
 	_connection_dialog.show_connecting(address, port)
 
 
-func _on_successful_join() -> void:
+func _on_joined() -> void:
 	_connection_dialog.hide()
 	_switch_to_lobby()
 
 
-func _on_failed_join() -> void:
+func _on_join_failed() -> void:
 	_connection_dialog.hide()
 	_error_dialog.show_error("Unable to join lobby")
 
 
-func _on_creation_error() -> void:
+func _on_created():
+	_lobby.teams_tree.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
+	# warning-ignore:return_value_discarded
+	_server_settings.connect("teams_count_changed", _lobby.teams_tree, "set_teams_count")
+	# warning-ignore:return_value_discarded
+	_server_settings.connect("slots_count_changed", _lobby.teams_tree, "set_slots_count")
+
+
+func _on_create_failed() -> void:
 	_error_dialog.show_error("Unable to create server")
 
 
@@ -51,20 +59,13 @@ func _on_server_disconnected() -> void:
 func _switch_to_servers() -> void:
 	_servers.visible = true
 	_lobby.visible = false
+	_server_settings.set_editable(false)
+	if _server_settings.is_connected("teams_count_changed", _lobby.teams_tree, "set_teams_count"):
+		_server_settings.disconnect("teams_count_changed", _lobby.teams_tree, "set_teams_count")
+	if _server_settings.is_connected("slots_count_changed", _lobby.teams_tree, "set_slots_count"):
+		_server_settings.disconnect("slots_count_changed", _lobby.teams_tree, "set_slots_count")
 
 
 func _switch_to_lobby() -> void:
 	_servers.visible = false
 	_lobby.visible = true
-
-
-func _set_teams_editable(editable: bool) -> void:
-	_server_settings.set_editable(editable)
-	if editable:
-		# warning-ignore:return_value_discarded
-		_server_settings.connect("teams_count_changed", _lobby.teams_tree, "set_teams_count")
-		# warning-ignore:return_value_discarded
-		_server_settings.connect("slots_count_changed", _lobby.teams_tree, "set_slots_count")
-	else:
-		_server_settings.disconnect("teams_count_changed", _lobby.teams_tree, "set_teams_count")
-		_server_settings.disconnect("slots_count_changed", _lobby.teams_tree, "set_slots_count")

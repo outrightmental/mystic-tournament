@@ -5,10 +5,10 @@ extends PanelContainer
 
 signal joined
 signal join_failed
+signal created
 signal create_failed
 signal server_disconnected
 signal leaved
-signal editable_changed(editable)
 
 var _editable: bool
 var _peer := NetworkedMultiplayerENet.new()
@@ -36,11 +36,10 @@ func _ready() -> void:
 	teams_tree.connect("filled_changed", _peer, "set_refuse_new_connections")
 
 
-func create(teams_count: int, slots_count: int) -> void:
+func create() -> void:
 	# TODO: Display all addresses here
 	_addresses_edit.text = IP.get_local_addresses().front()
 	_set_editable(true)
-	teams_tree.create(teams_count, slots_count)
 
 
 func join(address: String, port: int) -> int:
@@ -72,6 +71,7 @@ func _confirm_creation() -> void:
 
 	get_tree().network_peer = _peer
 	_set_editable(false)
+	emit_signal("created")
 
 
 func _close():
@@ -87,12 +87,12 @@ func _on_successful_connection() -> void:
 
 func _on_failed_connection() -> void:
 	get_tree().network_peer = null
-	emit_signal("join_failed")	
+	emit_signal("join_failed")
 
 
 func _on_server_disconnected() -> void:
 	get_tree().network_peer = null
-	emit_signal("server_disconnected")	
+	emit_signal("server_disconnected")
 
 
 func _set_editable(editable: bool) -> void:
@@ -101,4 +101,3 @@ func _set_editable(editable: bool) -> void:
 	_editable = editable
 	_port_spin.editable = _editable
 	_server_name_edit.editable = _editable
-	emit_signal("editable_changed", _editable)

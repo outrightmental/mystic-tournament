@@ -93,6 +93,8 @@ margin_top = 166.0
 margin_right = 319.0
 margin_bottom = 186.0
 size_flags_horizontal = 4
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.0
 
 [node name="StartGameButton" type="Button" parent="VBox/HBox"]
 visible = false
