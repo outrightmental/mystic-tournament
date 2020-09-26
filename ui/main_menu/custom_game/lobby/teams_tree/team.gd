@@ -10,16 +10,15 @@ const NO_TEAM_NUMBER: int = -1
 
 var team_number: int setget set_team_number
 
-var _tree: Tree
 var _tree_item: TreeItem
 var _slots: Array
 var _used_slots_count: int
 
 
 func _init(tree: Tree, number: int, slots) -> void:
-	_tree = tree
-	_tree_item = _tree.create_item(_tree.get_root())
-	
+	tree.add_child(self)
+	_tree_item = tree.create_item(tree.get_root())
+
 	# TODO: Check if this setter call text update twice in 4.0
 	team_number = number
 
@@ -66,6 +65,10 @@ func get_slot_ids() -> PoolIntArray:
 	return array
 
 
+func get_tree_item() -> TreeItem:
+	return _tree_item
+
+
 func is_full() -> bool:
 	return _slots.size() == _used_slots_count
 
@@ -90,7 +93,7 @@ func _create_slots_from_ids(slots: PoolIntArray) -> void:
 
 
 func _create_slot(id: int) -> void:
-	var slot := Slot.new(_tree.create_item(_tree_item), id)
+	var slot := Slot.new(self, id)
 	# warning-ignore:return_value_discarded
 	slot.connect("id_changed", self, "_update_used_slots")
 	_slots.append(slot)

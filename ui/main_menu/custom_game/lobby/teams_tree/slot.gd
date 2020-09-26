@@ -16,8 +16,11 @@ var id: int = -1 setget set_id
 var _tree_item: TreeItem
 
 
-func _init(tree_item: TreeItem, slot_id: int) -> void:
-	_tree_item = tree_item
+# Team do not have a type to avoid cycling dependency issues
+# Maybe will be fixed: https://github.com/godotengine/godot/pull/38118
+func _init(team, slot_id: int) -> void:
+	team.add_child(self)
+	_tree_item = team.get_parent().create_item(team.get_tree_item())
 	self.id = slot_id
 
 
