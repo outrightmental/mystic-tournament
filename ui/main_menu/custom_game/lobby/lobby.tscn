@@ -112,5 +112,5 @@ text = "Create"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="confirmed" from="LeaveDialog" to="." method="_close"]
+[connection signal="confirmed" from="LeaveDialog" to="." method="_confirm_leave"]
 [connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_creation"]

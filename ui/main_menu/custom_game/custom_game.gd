@@ -59,6 +59,7 @@ func _on_server_disconnected() -> void:
 func _switch_to_servers() -> void:
 	_servers.visible = true
 	_lobby.visible = false
+	_lobby.teams_tree.clear()
 	_server_settings.set_editable(false)
 	if _server_settings.is_connected("teams_count_changed", _lobby.teams_tree, "set_teams_count"):
 		_server_settings.disconnect("teams_count_changed", _lobby.teams_tree, "set_teams_count")

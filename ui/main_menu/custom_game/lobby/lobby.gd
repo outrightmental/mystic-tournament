@@ -10,7 +10,6 @@ signal create_failed
 signal server_disconnected
 signal leaved
 
-var _editable: bool
 var _peer := NetworkedMultiplayerENet.new()
 
 onready var teams_tree: TeamsTree = $VBox/TeamsTree
@@ -51,16 +50,22 @@ func join(address: String, port: int) -> int:
 
 
 func close_connection() -> void:
+	if get_tree().network_peer == null:
+		return
 	_peer.close_connection()
 	get_tree().network_peer = null
 
 
 func leave() -> void:
-	if _editable:
-		# Just close if the lobby is not configured
-		_close()
+	if get_tree().network_peer == null:
+		emit_signal("leaved")
 	else:
 		_leave_dialog.popup_centered()
+
+
+func _confirm_leave():
+	close_connection()
+	emit_signal("leaved")
 
 
 func _confirm_creation() -> void:
@@ -74,12 +79,6 @@ func _confirm_creation() -> void:
 	emit_signal("created")
 
 
-func _close():
-	close_connection()
-	teams_tree.clear()
-	emit_signal("leaved")
-
-
 func _on_successful_connection() -> void:
 	_set_editable(false)
 	emit_signal("joined")
@@ -91,13 +90,11 @@ func _on_failed_connection() -> void:
 
 
 func _on_server_disconnected() -> void:
+	_leave_dialog.hide()
 	get_tree().network_peer = null
 	emit_signal("server_disconnected")
 
 
 func _set_editable(editable: bool) -> void:
-	if editable == _editable:
-		return
-	_editable = editable
-	_port_spin.editable = _editable
-	_server_name_edit.editable = _editable
+	_port_spin.editable = editable
+	_server_name_edit.editable = editable
