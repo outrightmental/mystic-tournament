@@ -11,6 +11,8 @@ var _teams_full: bool
 func _ready():
 	# warning-ignore:return_value_discarded
 	create_item() # Create root
+	# warning-ignore:return_value_discarded
+	connect("button_pressed", self, "_on_slot_button_pressed")
 
 
 func create(teams_count: int, slots_count: int) -> void:
@@ -56,7 +58,7 @@ func add_connected_player(id: int) -> void:
 		return
 
 	# Add player to the first empty slot
-	var slot: Slot = _get_first_empty_slot()
+	var slot: Slot = _find_slot(Slot.EMPTY_SLOT)
 	assert(slot != null, "There is no empty slots to add a new player")
 	slot.id = id
 
@@ -73,6 +75,22 @@ puppet func _create_team(slots) -> void:
 	_teams.append(team)
 
 
+master func _join_slot(team_index: int, slot_index: int) -> void:
+	var previous_slot: Slot = _find_slot(get_tree().get_rpc_sender_id())
+	var new_slot = _teams[team_index].get_slot(slot_index)
+	assert(new_slot.id == Slot.EMPTY_SLOT)
+	new_slot.rset("id", previous_slot.id)
+	previous_slot.rset("id", Slot.EMPTY_SLOT)
+
+
+func _on_slot_button_pressed(item: TreeItem, column: int, _button_idx: int) -> void:
+	var item_indexes: PoolIntArray = _get_slot_item_indexes(item)
+	assert(item_indexes.size() == 2, "Unable to corresponding TreeItem")
+	match column:
+		Slot.JOIN_BUTTON:
+			rpc("_join_slot", item_indexes[0], item_indexes[1])
+
+
 func _check_if_filled_changed() -> void:
 	if _teams_full == _is_teams_full():
 		return
@@ -81,15 +99,22 @@ func _check_if_filled_changed() -> void:
 	emit_signal("filled_changed", _teams_full)
 
 
-func _get_first_empty_slot() -> Slot:
+func _find_slot(id: int) -> Slot:
 	for team in _teams:
-		if team.is_full():
-			continue
 		for slot_index in range(team.size()):
 			var slot: Slot = team.get_slot(slot_index)
-			if slot.id == Slot.EMPTY_SLOT:
+			if slot.id == id:
 				return slot
 	return null
+
+
+func _get_slot_item_indexes(item: TreeItem) -> PoolIntArray:
+	for team_index in range(_teams.size()):
+		var team: Team = _teams[team_index]
+		for slot_index in range(team.size()):
+			if team.get_slot(slot_index).get_tree_item() == item:
+				return PoolIntArray([team_index, slot_index])
+	return PoolIntArray()
 
 
 func _is_teams_full() -> bool:
