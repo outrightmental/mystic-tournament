@@ -34,8 +34,13 @@ func clear() -> void:
 
 
 func set_slots_count(count: int) -> void:
+	if _teams.front().size() > count:
+		for team in _teams:
+			team.truncate(count)
+		return
+
 	for team in _teams:
-		team.resize(count)
+		team.add_slots(count - team.size())
 
 
 func set_teams_count(count: int) -> void:

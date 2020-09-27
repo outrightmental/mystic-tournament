@@ -21,11 +21,7 @@ func _init(tree: Tree, number: int, slots) -> void:
 
 	# TODO: Check if this setter call text update twice in 4.0
 	team_number = number
-
-	if typeof(slots) == TYPE_INT_ARRAY:
-		_create_slots_from_ids(slots)
-	else:
-		resize(slots)
+	add_slots(slots)
 
 
 func _notification(what: int) -> void:
@@ -38,16 +34,18 @@ func set_team_number(number: int) -> void:
 	_update_text()
 
 
-func resize(count: int) -> void:
-	if _slots.size() == count:
-		return
-
-	if _slots.size() < count:
-		for _slot_index in range(_slots.size(), count):
-			_create_slot(Slot.EMPTY_SLOT)
+func add_slots(slots) -> void:
+	if typeof(slots) == TYPE_INT_ARRAY:
+		for id in slots:
+			_create_slot(id)
 	else:
-		Utils.truncate_and_free(_slots, count)
+		for _index in range(slots):
+			_create_slot(Slot.EMPTY_SLOT)
 	_update_text()
+
+
+func truncate(size: int) -> void:
+	Utils.truncate_and_free(_slots, size)
 
 
 func size() -> int:
@@ -83,12 +81,6 @@ func _update_used_slots(previous_slot_id: int, current_slot_id: int) -> void:
 			emit_signal("filled_changed", false)
 		_used_slots_count -= 1
 
-	_update_text()
-
-
-func _create_slots_from_ids(slots: PoolIntArray) -> void:
-	for id in slots:
-		_create_slot(id)
 	_update_text()
 
 
