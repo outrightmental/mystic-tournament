@@ -12,13 +12,14 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	create_item() # Create root
 	# warning-ignore:return_value_discarded
-	connect("button_pressed", self, "_on_slot_button_pressed")
+	connect("button_pressed", self, "_on_button_pressed")
 
 
 func create(teams_count: int, slots_count: int) -> void:
 	assert(_teams.empty(), "You should clear first")
 	assert(slots_count >= 1, "The number of slots cannot be less than 1")
 	assert(teams_count >= 1, "The number of teams cannot be less than 1")
+
 	for index in range(teams_count):
 		if index == 0:
 			# First team should contain host
@@ -74,26 +75,27 @@ func add_connected_player(id: int) -> void:
 
 puppet func _create_team(slots) -> void:
 	var team := Team.new(self, _teams.size() + 1, slots)
-	if get_tree().has_network_peer() and get_tree().is_network_server():
+	if get_tree().is_network_server():
 		# warning-ignore:return_value_discarded
 		team.connect("filled_changed", self, "_check_if_filled_changed")
 	_teams.append(team)
 
 
-master func _join_slot(team_index: int, slot_index: int) -> void:
+func _on_button_pressed(item: TreeItem, column: int, _button_idx: int) -> void:
+	var item_indexes: PoolIntArray = _get_tree_item_indexes(item)
+	assert(not item_indexes.empty(), "Unable to find corresponding TreeItem")
+	match column:
+		Team.JOIN_BUTTON:
+			rpc("_join_team", item_indexes[0])
+
+
+master func _join_team(team_index: int) -> void:
 	var previous_slot: Slot = _find_slot(get_tree().get_rpc_sender_id())
-	var new_slot = _teams[team_index].get_slot(slot_index)
-	assert(new_slot.id == Slot.EMPTY_SLOT)
+	var new_slot = _teams[team_index].find_slot(Slot.EMPTY_SLOT)
+	if new_slot == null:
+		return
 	new_slot.rset("id", previous_slot.id)
 	previous_slot.rset("id", Slot.EMPTY_SLOT)
-
-
-func _on_slot_button_pressed(item: TreeItem, column: int, _button_idx: int) -> void:
-	var item_indexes: PoolIntArray = _get_slot_item_indexes(item)
-	assert(item_indexes.size() == 2, "Unable to corresponding TreeItem")
-	match column:
-		Slot.JOIN_BUTTON:
-			rpc("_join_slot", item_indexes[0], item_indexes[1])
 
 
 func _check_if_filled_changed() -> void:
@@ -106,16 +108,17 @@ func _check_if_filled_changed() -> void:
 
 func _find_slot(id: int) -> Slot:
 	for team in _teams:
-		for slot_index in range(team.size()):
-			var slot: Slot = team.get_slot(slot_index)
-			if slot.id == id:
-				return slot
+		var slot: Slot = team.find_slot(id)
+		if slot != null:
+			return slot
 	return null
 
 
-func _get_slot_item_indexes(item: TreeItem) -> PoolIntArray:
+func _get_tree_item_indexes(item: TreeItem) -> PoolIntArray:
 	for team_index in range(_teams.size()):
 		var team: Team = _teams[team_index]
+		if team.get_tree_item() == item:
+			return PoolIntArray([team_index])
 		for slot_index in range(team.size()):
 			if team.get_slot(slot_index).get_tree_item() == item:
 				return PoolIntArray([team_index, slot_index])
