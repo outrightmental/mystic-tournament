@@ -31,31 +31,34 @@ func create(teams_count: int, slots_count: int) -> void:
 
 
 func clear() -> void:
-	Utils.truncate_and_free(_teams, 0)
+	_truncate_teams(0)
 
 
 func set_slots_count(count: int) -> void:
 	if _teams.front().size() > count:
 		for team in _teams:
-			team.truncate(count)
+			team.rpc("truncate", count)
 		return
 
 	for team in _teams:
-		team.add_slots(count - team.size())
+		team.rpc("add_slots", count - team.size())
 
 
 func set_teams_count(count: int) -> void:
 	if count == 0:
-		_teams.front().team_number = Team.NO_TEAM_NUMBER
-		Utils.truncate_and_free(_teams, 1) # Remove all teams except one
+		_teams.front().rset("team_number", Team.NO_TEAM_NUMBER)
+		rpc("_truncate_teams", 1) # Remove all teams except one
 		return
 
 	_teams.front().team_number = 1
 	if _teams.size() > count:
-		Utils.truncate_and_free(_teams, count)
+		rpc("_truncate_teams", count)
 		return
 
 	for _index in range(_teams.size(), count):
+		rpc("_create_team", _teams.front().size())
+		# Must be called on the server separately, as this function is also used
+		# to send existing data to the connected client (therefore, cannot be marked as sync)
 		_create_team(_teams.front().size())
 
 
@@ -96,6 +99,10 @@ master func _join_team(team_index: int) -> void:
 		return
 	new_slot.rset("id", previous_slot.id)
 	previous_slot.rset("id", Slot.EMPTY_SLOT)
+
+
+puppetsync func _truncate_teams(size: int) -> void:
+	Utils.truncate_and_free(_teams, size)
 
 
 func _check_if_filled_changed() -> void:

@@ -10,7 +10,7 @@ signal filled_changed(is_full)
 const JOIN_BUTTON: int = 0
 const NO_TEAM_NUMBER: int = -1
 
-var team_number: int setget set_team_number
+puppetsync var team_number: int setget set_team_number
 
 var _slots: Array
 var _used_slots_count: int
@@ -31,7 +31,7 @@ func set_team_number(number: int) -> void:
 	_update_text()
 
 
-func add_slots(slots) -> void:
+puppetsync func add_slots(slots) -> void:
 	if typeof(slots) == TYPE_INT_ARRAY:
 		for id in slots:
 			_create_slot(id)
@@ -41,7 +41,7 @@ func add_slots(slots) -> void:
 	_update_text()
 
 
-func truncate(size: int) -> void:
+puppetsync func truncate(size: int) -> void:
 	Utils.truncate_and_free(_slots, size)
 
 
