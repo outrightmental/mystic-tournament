@@ -1,7 +1,8 @@
 class_name Team
-extends Node
-# Wrapper around TreeItem to represent team in Tree
-# It also extends Node to allow RPC synchronization
+extends TreeItemWrapper
+# Represents team in TeamsTree
+# Displays the team number and its slots
+# Can be without number to just represent all players
 
 
 signal filled_changed(is_full)
@@ -11,7 +12,6 @@ const NO_TEAM_NUMBER: int = -1
 
 var team_number: int setget set_team_number
 
-var _tree_item: TreeItem
 var _slots: Array
 var _used_slots_count: int
 
@@ -19,16 +19,11 @@ var _used_slots_count: int
 func _init(tree: Tree, number: int, slots) -> void:
 	tree.add_child(self, true)
 	_tree_item = tree.create_item(tree.get_root())
-	_set_join_button_enabled(true)
+	_add_button(JOIN_BUTTON)
 
 	# TODO: Check if this setter call text update twice in 4.0
 	team_number = number
 	add_slots(slots)
-
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		_tree_item.free()
 
 
 func set_team_number(number: int) -> void:
@@ -72,10 +67,6 @@ func get_slot_ids() -> PoolIntArray:
 	return array
 
 
-func get_tree_item() -> TreeItem:
-	return _tree_item
-
-
 func is_full() -> bool:
 	return _slots.size() == _used_slots_count
 
@@ -92,9 +83,9 @@ func _on_slot_id_changed(slot: Slot, previous_slot_id: int) -> void:
 			emit_signal("filled_changed")
 
 	if slot.id == get_tree().get_network_unique_id():
-		_set_join_button_enabled(false)
+		_remove_button(JOIN_BUTTON)
 	elif previous_slot_id == get_tree().get_network_unique_id():
-		_set_join_button_enabled(true)
+		_add_button(JOIN_BUTTON)
 
 	_update_text()
 
@@ -106,19 +97,6 @@ func _create_slot(id: int) -> void:
 	_slots.append(slot)
 	if id != Slot.EMPTY_SLOT:
 		_on_slot_id_changed(slot, Slot.EMPTY_SLOT)
-
-
-func _set_join_button_enabled(enabled: bool) -> void:
-	if enabled:
-		if _tree_item.get_button_count(JOIN_BUTTON) == 1:
-			return
-		# TODO: Replace with icon
-		var temp_image = ImageTexture.new()
-		temp_image.create(15, 15, Image.FORMAT_BPTC_RGBA)
-		_tree_item.add_button(JOIN_BUTTON, temp_image, 0, false, "Join")
-	else:
-		if _tree_item.get_button_count(JOIN_BUTTON) == 1:
-			_tree_item.erase_button(JOIN_BUTTON, 0)
 
 
 func _move_slot_down(slot: Slot) -> void:
