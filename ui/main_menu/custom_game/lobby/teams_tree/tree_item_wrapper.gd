@@ -3,12 +3,16 @@ extends Node
 # Wrapper around TreeItem to represent data in TeamsTree
 # It extends Node to allow RPC synchronization
 
+
+signal destroyed(object)
+
 var _tree_item: TreeItem
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_tree_item.free()
+		emit_signal("destroyed", self)
 
 
 func get_tree_item() -> TreeItem:
