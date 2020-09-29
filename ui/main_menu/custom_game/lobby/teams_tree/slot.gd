@@ -1,6 +1,6 @@
 class_name Slot
 extends TreeItemWrapper
-# Represents Slot in TeamsTree
+# It's child of a Team that represents Slot in TeamsTree
 # Contains text based on the given ID
 # ID can be a peer ID or a special number that represents empty slot / computer
 
@@ -22,9 +22,8 @@ puppetsync var id: int = -1 setget set_id
 
 # Team do not have a Team type to avoid cycling dependency issues
 # Maybe will be fixed: https://github.com/godotengine/godot/pull/38118
-func _init(team: Node, slot_id: int) -> void:
+func _init(team: Node, slot_id: int).(team.get_parent(), team.get_tree_item()) -> void:
 	team.add_child(self, true)
-	_tree_item = team.get_parent().create_item(team.get_tree_item())
 	self.id = slot_id
 
 

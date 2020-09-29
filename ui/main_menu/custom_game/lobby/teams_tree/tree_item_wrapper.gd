@@ -1,12 +1,19 @@
 class_name TreeItemWrapper
 extends Node
 # Wrapper around TreeItem to represent data in TeamsTree
+# Automatically creates a child TreeItem for the given object and its Tree.
 # It extends Node to allow RPC synchronization
 
 
 signal destroyed(object)
 
+const WRAPPER_META: String = "wrapper"
+
 var _tree_item: TreeItem
+
+func _init(tree: Tree, root: TreeItem) -> void:
+	_tree_item = tree.create_item(root)
+	_tree_item.set_meta(WRAPPER_META, self)
 
 
 func _notification(what: int) -> void:

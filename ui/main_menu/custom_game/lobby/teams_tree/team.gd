@@ -19,9 +19,8 @@ var _slots: Array
 var _used_slots_count: int
 
 
-func _init(tree: Tree, number: int, slots) -> void:
+func _init(tree: Tree, number: int, slots).(tree, tree.get_root()) -> void:
 	tree.add_child(self, true)
-	_tree_item = tree.create_item(tree.get_root())
 	_add_button(Buttons.JOIN)
 
 	# TODO: Check if this setter call text update twice in 4.0
