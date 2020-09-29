@@ -82,6 +82,16 @@ func add_connected_player(id: int) -> void:
 		rpc_id(id, "_create_team", team.get_slot_ids())
 
 
+func remove_disconnected_player(id: int) -> void:
+	if not get_tree().is_network_server():
+		return
+
+	# Add player to the first empty slot
+	var slot: Slot = _find_slot(id)
+	assert(slot != null, "Disconnected player alredy does not exits")
+	slot.rset("id", Slot.EMPTY_SLOT)
+
+
 puppet func _create_team(slots) -> void:
 	var team := Team.new(self, _teams.size() + 1, slots)
 	if get_tree().is_network_server():
