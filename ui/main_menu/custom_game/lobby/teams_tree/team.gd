@@ -26,11 +26,10 @@ func _init(tree: Tree, number: int, slots) -> void:
 	add_slots(slots)
 
 
-func _notification(what: int) -> void:
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		# Disconnect slots destroy callback exit to avoid crashes and unnecessary text updates
-		for slot in _slots:
-			slot.disconnect("destroyed", self, "_on_slot_id_changed")
+func _exit_tree() -> void:
+	# Disconnect slots destroy callback to avoid crashes and unnecessary text updates
+	for slot in _slots:
+		slot.disconnect("destroyed", self, "_on_slot_id_changed")
 
 
 func set_team_number(number: int) -> void:
