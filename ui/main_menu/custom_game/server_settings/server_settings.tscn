@@ -58,6 +58,6 @@ margin_right = 153.0
 margin_bottom = 24.0
 min_value = 1.0
 value = 1.0
-[connection signal="toggled" from="VBox/TeamsEnabled" to="." method="_set_teams_enabled"]
-[connection signal="value_changed" from="VBox/TeamsCount/SpinBox" to="." method="_emit_teams_count_changed"]
-[connection signal="value_changed" from="VBox/SlotsCount/SpinBox" to="." method="_emit_slots_count_changed"]
+[connection signal="toggled" from="VBox/TeamsEnabled" to="." method="_on_teams_toggled"]
+[connection signal="value_changed" from="VBox/TeamsCount/SpinBox" to="." method="_on_teams_count_changed"]
+[connection signal="value_changed" from="VBox/SlotsCount/SpinBox" to="." method="_on_slots_count_changed"]

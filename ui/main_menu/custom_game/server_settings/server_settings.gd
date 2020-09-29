@@ -14,7 +14,7 @@ onready var _slots_count_box: HBoxContainer = $VBox/SlotsCount
 
 func _ready():
 	set_editable(false)
-	_set_teams_enabled(_teams_enabled.pressed)
+	_on_teams_toggled(_teams_enabled.pressed)
 
 	# Allow to sync server configuration over network
 	_teams_enabled.rset_config("pressed", MultiplayerAPI.RPC_MODE_PUPPET)
@@ -40,17 +40,23 @@ func get_slots_count() -> int:
 	return int(_slots_count.value)
 
 
-func _set_teams_enabled(enabled: bool) -> void:
-	_teams_count_box.visible = enabled
-	_emit_teams_count_changed(int(_teams_count.value) if enabled else 0)
+func _on_teams_toggled(toggled: bool) -> void:
+	_teams_count_box.visible = toggled
+	_on_teams_count_changed(int(_teams_count.value) if toggled else 0)
+	if get_tree().has_network_peer() and get_tree().is_network_server():
+		_teams_enabled.rset("pressed", _teams_enabled.pressed)
 
 
-func _emit_teams_count_changed(count: int) -> void:
+func _on_teams_count_changed(count: int) -> void:
 	emit_signal("teams_count_changed", count)
+	if get_tree().has_network_peer() and get_tree().is_network_server():
+		_teams_count.rset("value", _teams_count.value)
 
 
-func _emit_slots_count_changed(count: int) -> void:
+func _on_slots_count_changed(count: int) -> void:
 	emit_signal("slots_count_changed", count)
+	if get_tree().has_network_peer() and get_tree().is_network_server():
+		_slots_count.rset("value", _slots_count.value)
 
 
 func _send_settings_to_peer(id: int) -> void:
