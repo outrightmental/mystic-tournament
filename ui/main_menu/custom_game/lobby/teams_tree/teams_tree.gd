@@ -3,6 +3,12 @@ extends Tree
 
 
 signal filled_changed(is_full)
+signal player_kicked(id)
+
+enum NestingLevel {
+	TEAM = 1,
+	SLOT,
+}
 
 var _teams: Array
 var _teams_full: bool
@@ -87,9 +93,16 @@ puppet func _create_team(slots) -> void:
 func _on_button_pressed(item: TreeItem, column: int, _button_idx: int) -> void:
 	var item_indexes: PoolIntArray = _get_tree_item_indexes(item)
 	assert(not item_indexes.empty(), "Unable to find corresponding TreeItem")
-	match column:
-		Team.JOIN_BUTTON:
-			rpc("_join_team", item_indexes[0])
+	match item_indexes.size():
+		NestingLevel.TEAM:
+			match column:
+				Team.Buttons.JOIN:
+					rpc("_join_team", item_indexes[0])
+		NestingLevel.SLOT:
+			match column:
+				Slot.Buttons.KICK_PLAYER:
+					var slot: Slot = _teams[item_indexes[0]].get_slot(item_indexes[1])
+					emit_signal("player_kicked", slot.id)
 
 
 master func _join_team(team_index: int) -> void:

@@ -13,6 +13,10 @@ enum {
 	# All values ​​after 1 corresponds to the player's unique identifier.
 }
 
+enum Buttons {
+	KICK_PLAYER
+}
+
 puppetsync var id: int = -1 setget set_id
 
 
@@ -32,6 +36,12 @@ puppetsync func set_id(value: int) -> void:
 	id = value
 
 	_update_text()
+	if get_tree().get_network_unique_id() == HOST:
+		if id > HOST:
+			_add_button(Buttons.KICK_PLAYER)
+		else:
+			_remove_button(Buttons.KICK_PLAYER)
+
 	emit_signal("id_changed", self, previous_id)
 
 

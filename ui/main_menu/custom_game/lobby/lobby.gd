@@ -33,6 +33,8 @@ func _ready() -> void:
 	_peer.connect("peer_connected", teams_tree, "add_connected_player")
 	# warning-ignore:return_value_discarded
 	teams_tree.connect("filled_changed", _peer, "set_refuse_new_connections")
+	# warning-ignore:return_value_discarded
+	teams_tree.connect("player_kicked", _peer, "disconnect_peer")
 
 
 func create() -> void:

@@ -7,7 +7,10 @@ extends TreeItemWrapper
 
 signal filled_changed(is_full)
 
-const JOIN_BUTTON: int = 0
+enum Buttons {
+	JOIN
+}
+
 const NO_TEAM_NUMBER: int = -1
 
 puppetsync var team_number: int setget set_team_number
@@ -19,7 +22,7 @@ var _used_slots_count: int
 func _init(tree: Tree, number: int, slots) -> void:
 	tree.add_child(self, true)
 	_tree_item = tree.create_item(tree.get_root())
-	_add_button(JOIN_BUTTON)
+	_add_button(Buttons.JOIN)
 
 	# TODO: Check if this setter call text update twice in 4.0
 	team_number = number
@@ -89,9 +92,9 @@ func _on_slot_id_changed(slot: Slot, previous_slot_id: int) -> void:
 			emit_signal("filled_changed")
 
 	if slot.id == get_tree().get_network_unique_id():
-		_remove_button(JOIN_BUTTON)
+		_remove_button(Buttons.JOIN)
 	elif previous_slot_id == get_tree().get_network_unique_id():
-		_add_button(JOIN_BUTTON)
+		_add_button(Buttons.JOIN)
 
 	_update_text()
 
