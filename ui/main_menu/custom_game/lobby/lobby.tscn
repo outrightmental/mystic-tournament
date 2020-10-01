@@ -87,30 +87,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBox" type="HBoxContainer" parent="VBox"]
+[node name="CreateButton" type="Button" parent="VBox"]
 margin_left = 266.0
 margin_top = 166.0
 margin_right = 319.0
 margin_bottom = 186.0
 size_flags_horizontal = 4
-size_flags_vertical = 10
-size_flags_stretch_ratio = 0.0
-
-[node name="StartGameButton" type="Button" parent="VBox/HBox"]
-visible = false
-margin_right = 80.0
-margin_bottom = 20.0
-text = "Start game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreateButton" type="Button" parent="VBox/HBox"]
-margin_right = 53.0
-margin_bottom = 20.0
 text = "Create"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StartGameButton" type="Button" parent="VBox"]
+visible = false
+margin_left = 253.0
+margin_top = 166.0
+margin_right = 333.0
+margin_bottom = 186.0
+size_flags_horizontal = 4
+text = "Start game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="confirmed" from="LeaveDialog" to="." method="_confirm_leave"]
-[connection signal="pressed" from="VBox/HBox/CreateButton" to="." method="_confirm_creation"]
+[connection signal="pressed" from="VBox/CreateButton" to="." method="_confirm_creation"]
+[connection signal="pressed" from="VBox/StartGameButton" to="." method="_start_game"]

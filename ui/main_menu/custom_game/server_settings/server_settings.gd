@@ -9,7 +9,6 @@ onready var _teams_enabled: CheckBox = $VBox/TeamsEnabled
 onready var _teams_count: SpinBox = $VBox/TeamsCount/SpinBox
 onready var _slots_count: SpinBox = $VBox/SlotsCount/SpinBox
 onready var _teams_count_box: HBoxContainer = $VBox/TeamsCount
-onready var _slots_count_box: HBoxContainer = $VBox/SlotsCount
 
 
 func _ready():

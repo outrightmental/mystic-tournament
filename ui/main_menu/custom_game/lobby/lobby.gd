@@ -17,6 +17,8 @@ onready var _leave_dialog: ConfirmationDialog = $LeaveDialog
 onready var _server_name_edit: LineEdit = $VBox/Grid/ServerNameEdit
 onready var _addresses_edit: LineEdit = $VBox/Grid/AddressesEdit
 onready var _port_spin: SpinBox = $VBox/Grid/PortSpin
+onready var _create_button: Button = $VBox/CreateButton
+onready var _start_game_button: Button = $VBox/StartGameButton
 
 
 func _init() -> void:
@@ -83,6 +85,10 @@ func _confirm_creation() -> void:
 	emit_signal("created")
 
 
+func _start_game() -> void:
+	Gamemode.start_game()
+
+
 func _on_successful_connection() -> void:
 	_set_editable(false)
 	emit_signal("joined")
@@ -102,3 +108,5 @@ func _on_server_disconnected() -> void:
 func _set_editable(editable: bool) -> void:
 	_port_spin.editable = editable
 	_server_name_edit.editable = editable
+	_create_button.visible = editable
+	_start_game_button.visible = !editable
