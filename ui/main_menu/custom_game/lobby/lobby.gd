@@ -86,7 +86,7 @@ func _confirm_creation() -> void:
 
 
 func _start_game() -> void:
-	Gamemode.start_game()
+	Gamemode.rpc("start_game")
 
 
 func _on_successful_connection() -> void:
