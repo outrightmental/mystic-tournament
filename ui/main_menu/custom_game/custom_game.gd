@@ -41,7 +41,9 @@ func _ready() -> void:
 func back() -> void:
 	if _lobby.visible:
 		if get_tree().network_peer == null:
+			# Lobby was not created
 			_switch_to_servers()
+			_server_settings.set_editable(false)
 		else:
 			_leave_dialog.popup_centered()
 		return
@@ -69,15 +71,26 @@ func _direct_join_lobby() -> void:
 	_connection_dialog.show_connecting(address, port)
 
 
+func _cancel_connection() -> void:
+	_peer.close_connection()
+	get_tree().network_peer = null
+
+
 func _on_joined() -> void:
-	_connection_dialog.hide()
+	_set_lobby_editable(false)
 	_switch_to_lobby()
 
 
 func _on_join_failed() -> void:
 	get_tree().network_peer = null
-	_connection_dialog.hide()
 	_error_dialog.show_error("Unable to join lobby")
+
+
+func _on_server_disconnected() -> void:
+	_switch_to_servers()
+	get_tree().network_peer = null
+	_leave_dialog.hide()
+	_error_dialog.show_error("Server was disconnected")
 
 
 func _confirm_creation():
@@ -95,10 +108,14 @@ func _confirm_creation():
 	_server_settings.connect("slots_count_changed", _teams_tree, "set_slots_count")
 
 
-func _on_server_disconnected() -> void:
-	_leave_dialog.hide()
+func _confirm_leave() -> void:
+	if get_tree().is_network_server():
+		_server_settings.disconnect("teams_count_changed", _teams_tree, "set_teams_count")
+		_server_settings.disconnect("slots_count_changed", _teams_tree, "set_slots_count")
+		_server_settings.set_editable(false)
+
+	_cancel_connection()
 	_switch_to_servers()
-	_error_dialog.show_error("Server was disconnected")
 
 
 func _switch_to_lobby() -> void:
@@ -107,23 +124,9 @@ func _switch_to_lobby() -> void:
 
 
 func _switch_to_servers() -> void:
-	_close_connection()
-	_set_lobby_editable(false)
-	_server_settings.set_editable(false)
 	_teams_tree.clear()
 	_servers.visible = true
 	_lobby.visible = false
-	if _server_settings.is_connected("teams_count_changed", _teams_tree, "set_teams_count"):
-		_server_settings.disconnect("teams_count_changed", _teams_tree, "set_teams_count")
-	if _server_settings.is_connected("slots_count_changed", _teams_tree, "set_slots_count"):
-		_server_settings.disconnect("slots_count_changed", _teams_tree, "set_slots_count")
-
-
-func _close_connection() -> void:
-	if get_tree().network_peer == null:
-		return
-	_peer.close_connection()
-	get_tree().network_peer = null
 
 
 func _start_game() -> void:

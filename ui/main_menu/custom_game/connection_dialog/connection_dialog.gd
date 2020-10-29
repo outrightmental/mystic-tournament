@@ -10,6 +10,10 @@ onready var _label: Label = $HBox/Label
 
 func _ready() -> void:
 	ControlUtils.disable_input_when_hidden(self)
+	# warning-ignore:return_value_discarded
+	get_tree().connect("connected_to_server", self, "hide")
+	# warning-ignore:return_value_discarded
+	get_tree().connect("connection_failed", self, "hide")
 
 
 func _input(event: InputEvent) -> void:
