@@ -125,6 +125,7 @@ func _confirm_leave() -> void:
 		_server_settings.disconnect("slots_count_changed", _teams_tree, "set_slots_count")
 		_server_settings.set_editable(false)
 
+	_teams_tree.clear()
 	_cancel_connection()
 	_switch_to_servers()
 
@@ -135,7 +136,6 @@ func _switch_to_lobby() -> void:
 
 
 func _switch_to_servers() -> void:
-	_teams_tree.clear()
 	_servers.visible = true
 	_lobby.visible = false
 
