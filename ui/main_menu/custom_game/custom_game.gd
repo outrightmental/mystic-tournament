@@ -53,9 +53,13 @@ func back() -> void:
 
 func _create_lobby() -> void:
 	# TODO: Display all addresses here
-	_addresses_edit.text = IP.get_local_addresses().front()
 	_server_settings.set_editable(true)
-	_set_lobby_editable(true)
+	_addresses_edit.text = IP.get_local_addresses().front()
+	_port_spin.editable = true
+	_server_name_edit.editable = true
+	_create_button.visible = true
+	_start_game_button.visible = false
+
 	_switch_to_lobby()
 
 
@@ -77,7 +81,10 @@ func _cancel_connection() -> void:
 
 
 func _on_joined() -> void:
-	_set_lobby_editable(false)
+	_port_spin.editable = false
+	_server_name_edit.editable = false
+	_create_button.visible = false
+	_start_game_button.visible = false
 	_switch_to_lobby()
 
 
@@ -99,7 +106,11 @@ func _confirm_creation():
 		return
 
 	get_tree().network_peer = _peer
-	_set_lobby_editable(false)
+	_port_spin.editable = false
+	_server_name_edit.editable = false
+	_create_button.visible = false
+	_start_game_button.visible = true
+
 
 	_teams_tree.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
 	# warning-ignore:return_value_discarded
@@ -131,10 +142,3 @@ func _switch_to_servers() -> void:
 
 func _start_game() -> void:
 	Gamemode.rpc("start_game")
-
-
-func _set_lobby_editable(editable: bool) -> void:
-	_port_spin.editable = editable
-	_server_name_edit.editable = editable
-	_create_button.visible = editable
-	_start_game_button.visible = !editable
