@@ -2,10 +2,10 @@
 
 [ext_resource path="res://ui/main_menu/custom_game/custom_game.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu/custom_game/server_settings/server_settings.tscn" type="PackedScene" id=2]
-[ext_resource path="res://ui/main_menu/custom_game/lobby/lobby.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/main_menu/custom_game/teams_tree/teams_tree.gd" type="Script" id=3]
 [ext_resource path="res://ui/main_menu/custom_game/connection_dialog/connection_dialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/main_menu/custom_game/error_dialog.gd" type="Script" id=5]
-[ext_resource path="res://ui/main_menu/custom_game/servers/servers.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ui/main_menu/custom_game/direct_connect_dialog/direct_coonect_dialog.tscn" type="PackedScene" id=7]
 
 [node name="CustomGame" type="HBoxContainer"]
 anchor_left = 0.15
@@ -17,12 +17,187 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Servers" parent="." instance=ExtResource( 6 )]
+[node name="Servers" type="PanelContainer" parent="."]
+margin_right = 1162.0
+margin_bottom = 756.0
+rect_min_size = Vector2( 600, 200 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Lobby" parent="." instance=ExtResource( 3 )]
+[node name="VBox" type="VBoxContainer" parent="Servers"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1155.0
+margin_bottom = 749.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox" type="HBoxContainer" parent="Servers/VBox"]
+margin_left = 731.0
+margin_right = 1148.0
+margin_bottom = 24.0
+size_flags_horizontal = 8
+
+[node name="FilterEdit" type="LineEdit" parent="Servers/VBox/HBox"]
+margin_right = 250.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 250, 0 )
+placeholder_text = "Search"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateButton" type="Button" parent="Servers/VBox/HBox"]
+margin_left = 254.0
+margin_right = 307.0
+margin_bottom = 24.0
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DirectConnectButton" type="Button" parent="Servers/VBox/HBox"]
+margin_left = 311.0
+margin_right = 417.0
+margin_bottom = 24.0
+text = "Direct connect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ServersTable" type="Tree" parent="Servers/VBox"]
+margin_top = 28.0
+margin_right = 1148.0
+margin_bottom = 718.0
+size_flags_vertical = 3
+columns = 3
+select_mode = 1
+
+[node name="JoinButton" type="Button" parent="Servers/VBox"]
+margin_left = 556.0
+margin_top = 722.0
+margin_right = 591.0
+margin_bottom = 742.0
+size_flags_horizontal = 4
+disabled = true
+text = "Join"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lobby" type="PanelContainer" parent="."]
 visible = false
 margin_right = 1204.0
 margin_bottom = 756.0
+rect_min_size = Vector2( 600, 200 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeaveDialog" type="ConfirmationDialog" parent="Lobby"]
+margin_right = 283.0
+margin_bottom = 70.0
+window_title = "Leave lobby"
+dialog_text = "Are you sure you want to leave the lobby?"
+
+[node name="VBox" type="VBoxContainer" parent="Lobby"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 593.0
+margin_bottom = 193.0
+
+[node name="Grid" type="GridContainer" parent="Lobby/VBox"]
+margin_right = 586.0
+margin_bottom = 80.0
+columns = 2
+
+[node name="ServerNameLabel" type="Label" parent="Lobby/VBox/Grid"]
+margin_top = 5.0
+margin_right = 84.0
+margin_bottom = 19.0
+text = "Server name:"
+
+[node name="ServerNameEdit" type="LineEdit" parent="Lobby/VBox/Grid"]
+margin_left = 88.0
+margin_right = 238.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 150, 0 )
+text = "My server"
+
+[node name="AddressesLabel" type="Label" parent="Lobby/VBox/Grid"]
+margin_top = 33.0
+margin_right = 84.0
+margin_bottom = 47.0
+text = "Addresses:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddressesEdit" type="LineEdit" parent="Lobby/VBox/Grid"]
+margin_left = 88.0
+margin_top = 28.0
+margin_right = 238.0
+margin_bottom = 52.0
+editable = false
+
+[node name="PortLabel" type="Label" parent="Lobby/VBox/Grid"]
+margin_top = 61.0
+margin_right = 84.0
+margin_bottom = 75.0
+text = "Port:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortSpin" type="SpinBox" parent="Lobby/VBox/Grid"]
+margin_left = 88.0
+margin_top = 56.0
+margin_right = 162.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+max_value = 65535.0
+value = 6666.0
+
+[node name="TeamsTree" type="Tree" parent="Lobby/VBox"]
+margin_top = 84.0
+margin_right = 586.0
+margin_bottom = 162.0
+size_flags_vertical = 3
+hide_folding = true
+hide_root = true
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateButton" type="Button" parent="Lobby/VBox"]
+margin_left = 266.0
+margin_top = 166.0
+margin_right = 319.0
+margin_bottom = 186.0
+size_flags_horizontal = 4
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartGameButton" type="Button" parent="Lobby/VBox"]
+visible = false
+margin_left = 253.0
+margin_top = 166.0
+margin_right = 333.0
+margin_bottom = 186.0
+size_flags_horizontal = 4
+text = "Start game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ServerSettings" parent="." instance=ExtResource( 2 )]
 margin_left = 1166.0
@@ -36,12 +211,12 @@ margin_right = 78.0
 margin_bottom = 58.0
 window_title = "Error"
 script = ExtResource( 5 )
-[connection signal="create_requested" from="Servers" to="." method="_create_lobby"]
-[connection signal="join_requested" from="Servers" to="." method="_join_lobby"]
-[connection signal="create_failed" from="Lobby" to="." method="_on_create_failed"]
-[connection signal="created" from="Lobby" to="." method="_on_created"]
-[connection signal="join_failed" from="Lobby" to="." method="_on_join_failed"]
-[connection signal="joined" from="Lobby" to="." method="_on_joined"]
-[connection signal="leaved" from="Lobby" to="." method="_switch_to_servers"]
-[connection signal="server_disconnected" from="Lobby" to="." method="_on_server_disconnected"]
-[connection signal="canceled" from="ConnectionDialog" to="Lobby" method="close_connection"]
+
+[node name="DirectConnectDialog" parent="." instance=ExtResource( 7 )]
+[connection signal="pressed" from="Servers/VBox/HBox/CreateButton" to="." method="_create_lobby"]
+[connection signal="pressed" from="Servers/VBox/HBox/DirectConnectButton" to="DirectConnectDialog" method="popup_centered"]
+[connection signal="confirmed" from="Lobby/LeaveDialog" to="." method="_switch_to_servers"]
+[connection signal="pressed" from="Lobby/VBox/CreateButton" to="." method="_confirm_creation"]
+[connection signal="pressed" from="Lobby/VBox/StartGameButton" to="." method="_start_game"]
+[connection signal="canceled" from="ConnectionDialog" to="." method="_close_connection"]
+[connection signal="confirmed" from="DirectConnectDialog" to="." method="_direct_join_lobby"]
