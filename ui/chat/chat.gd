@@ -22,6 +22,8 @@ func _input(event: InputEvent) -> void:
 
 
 master func _send_message(message: String) -> void:
+	if message.empty():
+		return
 	rpc("_display_message", "white", "[[color=green]%d[/color]]: %s" % [get_tree().get_rpc_sender_id(), message])
 
 
@@ -30,6 +32,8 @@ puppetsync func _display_message(bbColor : String, message: String):
 
 
 func _write_message(message: String) -> void:
+	if message.empty():
+		return
 	$InputField.clear()
 	rpc("_send_message", message)
 
