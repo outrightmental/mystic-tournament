@@ -24,8 +24,8 @@ func create(teams_count: int, slots_count: int) -> void:
 	assert(teams_count >= 1, "The number of teams cannot be less than 1")
 
 	for index in range(teams_count):
-		if index == 0:
-			# First team should contain host
+		if index == 0 and not CmdArguments.server:
+			# The first team should contain the host if it is not a headless server
 			var slots: Array = [Slot.HOST] # Use array because of bug with resize in PoolIntArray (https://github.com/godotengine/godot/issues/31040)
 			slots.resize(slots_count) # Will filled with zeroes that corresponds to EMPTY_SLOT
 			_create_team(PoolIntArray(slots))

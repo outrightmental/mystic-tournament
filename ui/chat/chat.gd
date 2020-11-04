@@ -27,8 +27,11 @@ master func _send_message(message: String) -> void:
 	rpc("_display_message", "white", "[[color=green]%d[/color]]: %s" % [get_tree().get_rpc_sender_id(), message])
 
 
-puppetsync func _display_message(bbColor : String, message: String):
-	$Panel/ChatWindow.bbcode_text += "\n%s [color=%s]%s[/color]" % [_time(), bbColor, message]
+puppetsync func _display_message(bbColor: String, message: String):
+	if CmdArguments.server:
+		print(_time(), " ", message)
+	else:
+		$Panel/ChatWindow.bbcode_text += "\n%s [color=%s]%s[/color]" % [_time(), bbColor, message]
 
 
 func _write_message(message: String) -> void:
@@ -48,4 +51,7 @@ func _announce_disconnected(id: int) -> void:
 
 func _time() -> String:
 	var time: Dictionary = OS.get_time()
-	return "[color=gray][%02d:%02d:%02d][/color]" % [time.hour, time.minute, time.second]
+	var time_string: String = "[%02d:%02d:%02d]" % [time.hour, time.minute, time.second]
+	if not CmdArguments.server:
+		time_string = "[color=gray]" + time_string + "[/color]"
+	return time_string

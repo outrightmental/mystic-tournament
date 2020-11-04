@@ -3,5 +3,9 @@ extends AcceptDialog
 
 
 func show_error(error_text: String) -> void:
-	dialog_text = error_text
-	popup_centered()
+	if CmdArguments.server:
+		print(error_text)
+		get_tree().quit()
+	else:
+		dialog_text = error_text
+		popup_centered()

@@ -33,9 +33,12 @@ func _ready() -> void:
 	# warning-ignore:return_value_discarded
 	_peer.connect("peer_disconnected", _teams_tree, "remove_disconnected_player")
 	# warning-ignore:return_value_discarded
-	_teams_tree.connect("filled_changed", _peer, "set_refuse_new_connections")
-	# warning-ignore:return_value_discarded
 	_teams_tree.connect("player_kicked", _peer, "disconnect_peer")
+	# warning-ignore:return_value_discarded
+	_teams_tree.connect("filled_changed", self, "_on_team_filled_changed", [], CONNECT_DEFERRED)
+
+	if CmdArguments.server:
+		_confirm_creation()
 
 
 func back() -> void:
@@ -111,12 +114,14 @@ func _confirm_creation():
 	_create_button.visible = false
 	_start_game_button.visible = true
 
-
 	_teams_tree.create(_server_settings.get_teams_count(), _server_settings.get_slots_count())
 	# warning-ignore:return_value_discarded
 	_server_settings.connect("teams_count_changed", _teams_tree, "set_teams_count")
 	# warning-ignore:return_value_discarded
 	_server_settings.connect("slots_count_changed", _teams_tree, "set_slots_count")
+
+	if CmdArguments.server:
+		print("Waiting for players...")
 
 
 func _confirm_leave() -> void:
@@ -140,5 +145,12 @@ func _switch_to_servers() -> void:
 	_lobby.visible = false
 
 
+func _on_team_filled_changed(teams_full: bool) -> void:
+	_peer.refuse_new_connections = teams_full
+	if CmdArguments.server:
+		_start_game()
+
+
 func _start_game() -> void:
+	_peer.refuse_new_connections = true
 	Gamemode.rpc("start_game")
