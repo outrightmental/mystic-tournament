@@ -19,5 +19,7 @@ puppetsync func start_game() -> void:
 			var player: BaseHero = hero_scene.instance()
 			player.set_network_master(network_id)
 			player.set_name("Player" + str(network_id))
+			if network_id == get_tree().get_network_unique_id():
+				player.set_controller(PlayerController.new())
 			Gamemode.map.add_child(player)
 	emit_signal("game_started")
