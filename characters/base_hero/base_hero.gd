@@ -15,6 +15,7 @@ var _motion: Vector3
 var _velocity: Vector3
 
 onready var _spring_arm = $SpringArm
+onready var _floating_text: FloatingText = $FloatingText
 
 
 func _init() -> void:
@@ -41,7 +42,7 @@ func set_controller(controller: BaseController) -> void:
 func change_health(value: int) -> void:
 	if health <= 0:
 		return
-	$DamageText.show_damage(value)
+	_floating_text.show_text(value)
 	health = health + value
 	if health <= 0:
 		emit_signal("died")

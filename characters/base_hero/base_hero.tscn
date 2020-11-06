@@ -20,7 +20,7 @@ width = 0.5
 height = 1.7
 depth = 0.5
 
-[node name="DamageText" parent="." instance=ExtResource( 3 )]
+[node name="FloatingText" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 
 [node name="SpringArm" parent="." instance=ExtResource( 2 )]
