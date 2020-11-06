@@ -4,11 +4,12 @@ extends SpringArm
 const ROTATION_SPEED := 0.002
 const ZOOM_SPEED := 0.5
 
+onready var _camera: Camera = $Camera
 
 func _ready() -> void:
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		$Camera.set_current(true)
+		_camera.set_current(true)
 	else:
 		set_process_input(false)
 

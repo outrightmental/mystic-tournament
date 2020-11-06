@@ -207,5 +207,5 @@ __meta__ = {
 anims/hide_background = SubResource( 3 )
 anims/show_background = SubResource( 4 )
 [connection signal="text_entered" from="InputField" to="." method="_write_message"]
-[connection signal="pressed" from="OpenChatButton" to="AnimationPlayer" method="play" binds= [ "show_background" ]]
 [connection signal="pressed" from="OpenChatButton" to="InputField" method="grab_focus"]
+[connection signal="pressed" from="OpenChatButton" to="AnimationPlayer" method="play" binds= [ "show_background" ]]

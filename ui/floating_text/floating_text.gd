@@ -1,8 +1,8 @@
 class_name FloatingText
 extends Spatial
 
-onready var _viewport = $Viewport
-onready var _tween = $Tween
+onready var _viewport: Viewport = $Viewport
+onready var _tween: Tween = $Tween
 
 
 func show_text(damage: int) -> void:
@@ -15,8 +15,13 @@ func show_text(damage: int) -> void:
 
 
 func _animate(label: Label) -> void:
+	# warning-ignore:return_value_discarded
 	_tween.interpolate_property(label, "modulate:a", 1, 0, 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.7)
+	# warning-ignore:return_value_discarded
 	_tween.interpolate_property(label, "rect_scale", Vector2.ZERO, Vector2.ONE, 0.3, Tween.TRANS_QUART, Tween.EASE_OUT)
-	_tween.interpolate_property(label, "rect_position:y", $Viewport.get_size().y, 0, 1, Tween.TRANS_QUART, Tween.EASE_OUT)
+	# warning-ignore:return_value_discarded
+	_tween.interpolate_property(label, "rect_position:y", _viewport.get_size().y, 0, 1, Tween.TRANS_QUART, Tween.EASE_OUT)
+	# warning-ignore:return_value_discarded
 	_tween.interpolate_callback(label, 1, "queue_free")
+	# warning-ignore:return_value_discarded
 	_tween.start()

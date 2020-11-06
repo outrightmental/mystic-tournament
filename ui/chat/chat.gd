@@ -1,6 +1,11 @@
 extends VBoxContainer
 
 
+onready var _input_field: LineEdit = $InputField
+onready var _animation_player: AnimationPlayer = $AnimationPlayer
+onready var _chat_window: RichTextLabel = $Panel/ChatWindow
+
+
 func _ready() -> void:
 	# warning-ignore:return_value_discarded
 	get_tree().connect("network_peer_connected", self, "_announce_connected")
@@ -11,14 +16,14 @@ func _ready() -> void:
 	# warning-ignore:return_value_discarded
 	get_tree().connect("server_disconnected", self, "_display_message", ["gray", "You left the game."])
 	# warning-ignore:return_value_discarded
-	$InputField.connect("focus_exited", $AnimationPlayer, "play", ["hide_background"])
+	_input_field.connect("focus_exited", _animation_player, "play", ["hide_background"])
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		if $InputField.has_focus():
-			$InputField.accept_event()
-			$InputField.release_focus()
+		if _input_field.has_focus():
+			_input_field.accept_event()
+			_input_field.release_focus()
 
 
 master func _send_message(message: String) -> void:
@@ -31,13 +36,13 @@ puppetsync func _display_message(bbColor: String, message: String):
 	if CmdArguments.server:
 		print(_time(), " ", message)
 	else:
-		$Panel/ChatWindow.bbcode_text += "\n%s [color=%s]%s[/color]" % [_time(), bbColor, message]
+		_chat_window.bbcode_text += "\n%s [color=%s]%s[/color]" % [_time(), bbColor, message]
 
 
 func _write_message(message: String) -> void:
 	if message.empty():
 		return
-	$InputField.clear()
+	_input_field.clear()
 	rpc("_send_message", message)
 
 

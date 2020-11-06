@@ -14,7 +14,7 @@ var _controller: BaseController
 var _motion: Vector3
 var _velocity: Vector3
 
-onready var _spring_arm = $SpringArm
+onready var _spring_arm: SpringArm = $SpringArm
 onready var _floating_text: FloatingText = $FloatingText
 
 
