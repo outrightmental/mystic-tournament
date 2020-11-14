@@ -2,6 +2,9 @@ class_name BaseController
 extends Node
 
 
+# warning-ignore:unused_signal
+signal base_attack_activated
+
 var input_enabled: bool = true
 
 

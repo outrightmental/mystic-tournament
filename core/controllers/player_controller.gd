@@ -2,6 +2,15 @@ class_name PlayerController
 extends BaseController
 
 
+func _init() -> void:
+	rpc_config("emit_signal", MultiplayerAPI.RPC_MODE_REMOTESYNC)
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_released("base_attack"):
+		rpc("emit_signal", "base_attack_activated")
+
+
 func input_direction(basis: Basis) -> Vector3:
 	if not input_enabled:
 		return Vector3.ZERO

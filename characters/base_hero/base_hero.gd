@@ -16,12 +16,17 @@ var _velocity: Vector3
 
 onready var _spring_arm: SpringArm = $SpringArm
 onready var _floating_text: FloatingText = $FloatingText
+onready var _tween: Tween = $Tween
+onready var _mesh: MeshInstance = $Mesh
 
 
 func _init() -> void:
-	set_physics_process(false)
 	rpc_config("set_global_transform", MultiplayerAPI.RPC_MODE_REMOTE)
 	rpc_config("set_translation", MultiplayerAPI.RPC_MODE_SYNC)
+
+
+func _ready() -> void:
+	set_physics_process(_controller != null)
 
 
 func _physics_process(delta: float) -> void:
@@ -37,6 +42,9 @@ func set_controller(controller: BaseController) -> void:
 	_controller = controller
 	add_child(_controller)
 	set_physics_process(_controller != null)
+
+	# warning-ignore:return_value_discarded
+	_controller.connect("base_attack_activated", self, "_base_attack")
 
 
 func change_health(value: int) -> void:
@@ -66,3 +74,11 @@ func release_spirit() -> void:
 	rpc("set_translation", Vector3(0, 30, 0))
 	rset("health", MAX_HEALTH)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _look_at_camera() -> void:
+	# warning-ignore:return_value_discarded
+	_tween.follow_property(_mesh, "rotation:y", _mesh.rotation.y,
+			_spring_arm, "rotation:y", 0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	# warning-ignore:return_value_discarded
+	_tween.start()
