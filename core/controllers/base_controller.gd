@@ -3,7 +3,7 @@ extends Node
 
 
 # warning-ignore:unused_signal
-signal base_attack_activated
+signal skill_activated(skill_type)
 
 var input_enabled: bool = true
 

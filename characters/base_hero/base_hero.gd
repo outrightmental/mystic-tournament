@@ -4,6 +4,10 @@ extends KinematicBody
 
 signal died
 
+enum {
+	BASE_ATTACK
+}
+
 const MOVE_SPEED = 10
 const JUMP_IMPULSE = 4
 const MAX_HEALTH = 20
@@ -13,6 +17,7 @@ sync var health := MAX_HEALTH
 var _controller: BaseController
 var _motion: Vector3
 var _velocity: Vector3
+var _skils: Array
 
 onready var _spring_arm: SpringArm = $SpringArm
 onready var _floating_text: FloatingText = $FloatingText
@@ -61,7 +66,7 @@ func set_controller(controller: BaseController) -> void:
 	set_physics_process(_controller != null)
 
 	# warning-ignore:return_value_discarded
-	_controller.connect("base_attack_activated", self, "_base_attack")
+	_controller.connect("skill_activated", self, "_use_skill")
 
 
 func change_health(value: int) -> void:
@@ -77,6 +82,12 @@ func release_spirit() -> void:
 	rpc("set_translation", Vector3(0, 30, 0))
 	rset("health", MAX_HEALTH)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _use_skill(skill_type: int) -> void:
+	_look_at_camera()
+	yield(get_tree().create_timer(_tween.get_runtime()), "timeout")
+	_skils[skill_type].use()
 
 
 func _look_at_camera() -> void:
