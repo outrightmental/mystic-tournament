@@ -18,6 +18,7 @@ onready var _spring_arm: SpringArm = $SpringArm
 onready var _floating_text: FloatingText = $FloatingText
 onready var _tween: Tween = $Tween
 onready var _mesh: MeshInstance = $Mesh
+onready var _collision: CollisionShape = $Collision
 
 
 func _init() -> void:
@@ -79,6 +80,9 @@ func release_spirit() -> void:
 func _look_at_camera() -> void:
 	# warning-ignore:return_value_discarded
 	_tween.follow_property(_mesh, "rotation:y", _mesh.rotation.y,
-			_spring_arm, "rotation:y", 0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			_spring_arm, "rotation:y", 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
+	# warning-ignore:return_value_discarded
+	_tween.follow_property(_collision, "rotation:y", _collision.rotation.y,
+			_spring_arm, "rotation:y", 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
 	# warning-ignore:return_value_discarded
 	_tween.start()
