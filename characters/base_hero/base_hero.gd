@@ -32,6 +32,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var direction: Vector3 = _controller.input_direction(_spring_arm.global_transform.basis)
+	if direction != Vector3.ZERO:
+		_look_at_camera()
+
 	_motion = _motion.linear_interpolate(direction * MOVE_SPEED, Game.get_motion_interpolate_speed() * delta)
 
 	var new_velocity: Vector3
