@@ -7,6 +7,7 @@ func _init() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# TODO: Replace with https://github.com/godotengine/godot/pull/37200
 	if event.is_action_released("base_attack"):
 		rpc("emit_signal", "base_attack_activated")
 

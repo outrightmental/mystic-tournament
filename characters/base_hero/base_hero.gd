@@ -33,7 +33,20 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var direction: Vector3 = _controller.input_direction(_spring_arm.global_transform.basis)
 	_motion = _motion.linear_interpolate(direction * MOVE_SPEED, Game.get_motion_interpolate_speed() * delta)
-	_velocity = move_and_slide(calculate_velocity(delta), Vector3.UP, true)
+
+	var new_velocity: Vector3
+	if is_on_floor():
+		new_velocity = _motion
+		if _controller.is_jumping():
+			new_velocity.y = JUMP_IMPULSE
+		else:
+			new_velocity.y = -Game.get_gravity()
+	else:
+		new_velocity = _velocity.linear_interpolate(_motion, Game.get_velocity_interpolate_speed() * delta)
+		new_velocity.y = _velocity.y - Game.get_gravity() * delta
+
+	_velocity = move_and_slide(new_velocity, Vector3.UP, true)
+	# TODO: Replace with https://github.com/godotengine/godot/pull/37200
 	rpc_unreliable("set_global_transform", get_global_transform())
 
 
@@ -55,20 +68,6 @@ func change_health(value: int) -> void:
 	health = health + value
 	if health <= 0:
 		emit_signal("died")
-
-
-func calculate_velocity(delta: float) -> Vector3:
-	var new_velocity: Vector3
-	if is_on_floor():
-		new_velocity = _motion
-		if _controller.is_jumping():
-			new_velocity.y = JUMP_IMPULSE
-		else:
-			new_velocity.y = -Game.get_gravity()
-	else:
-		new_velocity = _velocity.linear_interpolate(_motion, Game.get_velocity_interpolate_speed() * delta)
-		new_velocity.y = _velocity.y - Game.get_gravity() * delta
-	return new_velocity
 
 
 func release_spirit() -> void:
