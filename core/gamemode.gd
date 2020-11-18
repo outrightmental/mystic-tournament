@@ -20,5 +20,18 @@ puppetsync func start_game() -> void:
 			player.set_name("Player" + str(network_id))
 			player.set_controller(PlayerController.new())
 			player.set_network_master(network_id, true)
+			# warning-ignore:return_value_discarded
+			player.connect("died", self, "_on_player_died")
 			Gamemode.map.add_child(player)
 	emit_signal("game_started")
+
+
+func respawn_time(level: int) -> int:
+	return level # TODO: Use formula
+
+
+func _on_player_died(who: BaseHero, _by: BaseHero) -> void:
+	who.visible = false
+	yield(get_tree().create_timer(respawn_time(who.get_level())), "timeout")
+	who.respawn(Vector3(0, 5, 0))
+	who.visible = true

@@ -2,7 +2,7 @@ class_name BaseHero
 extends KinematicBody
 
 
-signal died
+signal died(sender, by)
 
 enum {
 	BASE_ATTACK
@@ -28,7 +28,6 @@ onready var _collision: CollisionShape = $Collision
 
 func _init() -> void:
 	rset_config("global_transform", MultiplayerAPI.RPC_MODE_REMOTE)
-	rpc_config("set_translation", MultiplayerAPI.RPC_MODE_SYNC)
 
 
 func _ready() -> void:
@@ -68,18 +67,22 @@ func set_controller(controller: BaseController) -> void:
 	_controller.connect("skill_activated", self, "_use_skill")
 
 
-func change_health(value: int) -> void:
+func get_level() -> int:
+	return 1 # TODO: Use internal variable
+
+
+func change_health(value: int, by: BaseHero = null) -> void:
 	if health <= 0:
 		return
 	_floating_text.show_text(value)
 	health = health + value
 	if health <= 0:
-		emit_signal("died")
+		emit_signal("died", self, by)
 
 
-func release_spirit() -> void:
-	rpc("set_translation", Vector3(0, 30, 0))
-	rset("health", MAX_HEALTH)
+func respawn(position: Vector3) -> void:
+	translation = position
+	health = MAX_HEALTH
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
