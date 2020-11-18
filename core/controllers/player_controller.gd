@@ -6,6 +6,10 @@ func _init() -> void:
 	rpc_config("emit_signal", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 
 
+func _ready() -> void:
+	set_process_input(is_network_master())
+
+
 func _input(event: InputEvent) -> void:
 	# TODO: Replace with https://github.com/godotengine/godot/pull/37200
 	if event.is_action_released("base_attack"):

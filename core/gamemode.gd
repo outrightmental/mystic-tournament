@@ -17,9 +17,8 @@ puppetsync func start_game() -> void:
 			if network_id == 0:
 				continue
 			var player: Ada = hero_scene.instance()
-			player.set_network_master(network_id)
 			player.set_name("Player" + str(network_id))
-			if network_id == get_tree().get_network_unique_id():
-				player.set_controller(PlayerController.new())
+			player.set_controller(PlayerController.new())
+			player.set_network_master(network_id, true)
 			Gamemode.map.add_child(player)
 	emit_signal("game_started")

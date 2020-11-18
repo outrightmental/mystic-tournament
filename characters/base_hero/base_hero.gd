@@ -27,18 +27,18 @@ onready var _collision: CollisionShape = $Collision
 
 
 func _init() -> void:
-	rpc_config("set_global_transform", MultiplayerAPI.RPC_MODE_REMOTE)
+	rset_config("global_transform", MultiplayerAPI.RPC_MODE_REMOTE)
 	rpc_config("set_translation", MultiplayerAPI.RPC_MODE_SYNC)
 
 
 func _ready() -> void:
-	set_physics_process(_controller != null)
+	set_physics_process(is_network_master())
 
 
 func _physics_process(delta: float) -> void:
 	var direction: Vector3 = _controller.input_direction(_spring_arm.global_transform.basis)
 	if direction != Vector3.ZERO:
-		_look_at_camera()
+		rpc("_look_at_camera")
 
 	_motion = _motion.linear_interpolate(direction * MOVE_SPEED, Game.get_motion_interpolate_speed() * delta)
 
@@ -55,7 +55,7 @@ func _physics_process(delta: float) -> void:
 
 	_velocity = move_and_slide(new_velocity, Vector3.UP, true)
 	# TODO: Replace with https://github.com/godotengine/godot/pull/37200
-	rpc_unreliable("set_global_transform", get_global_transform())
+	rset_unreliable("global_transform", global_transform)
 
 
 func set_controller(controller: BaseController) -> void:
@@ -63,7 +63,6 @@ func set_controller(controller: BaseController) -> void:
 		_controller.free()
 	_controller = controller
 	add_child(_controller)
-	set_physics_process(_controller != null)
 
 	# warning-ignore:return_value_discarded
 	_controller.connect("skill_activated", self, "_use_skill")
@@ -90,7 +89,7 @@ func _use_skill(skill_type: int) -> void:
 	_skils[skill_type].use()
 
 
-func _look_at_camera() -> void:
+puppetsync func _look_at_camera() -> void:
 	# warning-ignore:return_value_discarded
 	_tween.follow_property(_mesh, "rotation:y", _mesh.rotation.y,
 			_spring_arm, "rotation:y", 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
