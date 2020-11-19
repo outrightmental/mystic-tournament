@@ -6,4 +6,5 @@ onready var _frost_bolt_spawn: Position3D = $Mesh/FrostBoltSpawn
 
 
 func _ready() -> void:
-	_skils.push_back(FrostBolt.new(self, _frost_bolt_spawn))
+	_skils[BASE_ATTACK] = FrostBolt.new()
+	_skils_spawn_positions[BASE_ATTACK] = _frost_bolt_spawn

@@ -17,7 +17,8 @@ sync var health := MAX_HEALTH
 var _controller: BaseController
 var _motion: Vector3
 var _velocity: Vector3
-var _skils: Array
+var _skils: Dictionary
+var _skils_spawn_positions: Dictionary
 
 onready var _spring_arm: SpringArm = $SpringArm
 onready var _floating_text: FloatingText = $FloatingText
@@ -89,7 +90,7 @@ func respawn(position: Vector3) -> void:
 func _use_skill(skill_type: int) -> void:
 	_look_at_camera()
 	yield(get_tree().create_timer(_tween.get_runtime()), "timeout")
-	_skils[skill_type].use()
+	_skils[skill_type].use(self, _skils_spawn_positions.get(skill_type).global_transform)
 
 
 puppetsync func _look_at_camera() -> void:
