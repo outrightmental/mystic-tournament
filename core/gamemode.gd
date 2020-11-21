@@ -18,11 +18,14 @@ puppetsync func start_game() -> void:
 				continue
 			var player: Ada = hero_scene.instance()
 			player.set_name("Player" + str(network_id))
-			player.set_controller(PlayerController.new())
-			player.set_network_master(network_id, true)
 			# warning-ignore:return_value_discarded
 			player.connect("died", self, "_on_player_died")
 			Gamemode.map.add_child(player)
+
+			var controller := PlayerController.new()
+			controller.set_network_master(network_id)
+			controller.character = player
+			add_child(controller)
 	emit_signal("game_started")
 
 

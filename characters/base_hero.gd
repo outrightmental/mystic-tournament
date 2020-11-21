@@ -14,15 +14,13 @@ const MAX_HEALTH = 20
 
 sync var health := MAX_HEALTH
 
-var _controller: BaseController
 var _motion: Vector3
 var _velocity: Vector3
 var _skils: Dictionary
 var _skils_spawn_positions: Dictionary
 
-onready var _spring_arm: SpringArm = $SpringArm
 onready var _floating_text: FloatingText = $FloatingText
-onready var _tween: Tween = $Tween
+onready var _rotation_tween: Tween = $RotationTween
 onready var _mesh: MeshInstance = $Mesh
 onready var _collision: CollisionShape = $Collision
 
@@ -31,21 +29,13 @@ func _init() -> void:
 	rset_config("global_transform", MultiplayerAPI.RPC_MODE_REMOTE)
 
 
-func _ready() -> void:
-	set_physics_process(is_network_master())
-
-
-func _physics_process(delta: float) -> void:
-	var direction: Vector3 = _controller.input_direction(_spring_arm.global_transform.basis)
-	if direction != Vector3.ZERO:
-		rpc("_look_at_camera")
-
+func move(delta: float, direction: Vector3, jumping: bool) -> void:
 	_motion = _motion.linear_interpolate(direction * MOVE_SPEED, Game.get_motion_interpolate_speed() * delta)
 
 	var new_velocity: Vector3
 	if is_on_floor():
 		new_velocity = _motion
-		if _controller.is_jumping():
+		if jumping:
 			new_velocity.y = JUMP_IMPULSE
 		else:
 			new_velocity.y = -Game.get_gravity()
@@ -58,18 +48,27 @@ func _physics_process(delta: float) -> void:
 	rset_unreliable("global_transform", global_transform)
 
 
-func set_controller(controller: BaseController) -> void:
-	if _controller:
-		_controller.free()
-	_controller = controller
-	add_child(_controller)
-
+puppetsync func rotate_smoothly_to(y_radians: float) -> void:
 	# warning-ignore:return_value_discarded
-	_controller.connect("skill_activated", self, "_use_skill")
+	_rotation_tween.interpolate_property(_mesh, "rotation:y", _mesh.rotation.y,
+			y_radians, 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
+	# warning-ignore:return_value_discarded
+	_rotation_tween.interpolate_property(_collision, "rotation:y", _collision.rotation.y,
+			y_radians, 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
+	# warning-ignore:return_value_discarded
+	_rotation_tween.start()
+
+
+puppetsync func use_skill(skill_type: int) -> void:
+	_skils[skill_type].use(self, _skils_spawn_positions.get(skill_type).global_transform)
 
 
 func get_level() -> int:
 	return 1 # TODO: Use internal variable
+
+
+func get_rotation_time() -> float:
+	return _rotation_tween.get_runtime()
 
 
 func change_health(value: int, by: BaseHero = null) -> void:
@@ -85,20 +84,3 @@ func respawn(position: Vector3) -> void:
 	translation = position
 	health = MAX_HEALTH
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-func _use_skill(skill_type: int) -> void:
-	_look_at_camera()
-	yield(get_tree().create_timer(_tween.get_runtime()), "timeout")
-	_skils[skill_type].use(self, _skils_spawn_positions.get(skill_type).global_transform)
-
-
-puppetsync func _look_at_camera() -> void:
-	# warning-ignore:return_value_discarded
-	_tween.follow_property(_mesh, "rotation:y", _mesh.rotation.y,
-			_spring_arm, "rotation:y", 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
-	# warning-ignore:return_value_discarded
-	_tween.follow_property(_collision, "rotation:y", _collision.rotation.y,
-			_spring_arm, "rotation:y", 0.1, Tween.TRANS_SINE, Tween.EASE_OUT)
-	# warning-ignore:return_value_discarded
-	_tween.start()
