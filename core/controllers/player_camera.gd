@@ -8,7 +8,6 @@ const ZOOM_SPEED := 0.5
 onready var _camera: Camera = $Camera
 
 func _ready() -> void:
-	rset_config("rotation", MultiplayerAPI.RPC_MODE_PUPPET)
 	if is_network_master():
 		if OS.is_window_focused():
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -31,4 +30,3 @@ func _input(event: InputEvent) -> void:
 		rotation.y -= event.relative.x * ROTATION_SPEED
 		rotation.x -= event.relative.y * ROTATION_SPEED
 		rotation.x = clamp(rotation.x, -PI / 2, 0.7)
-		rset_unreliable("rotation", rotation)
