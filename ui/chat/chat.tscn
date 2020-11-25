@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/chat/chat.gd" type="Script" id=1]
 
@@ -84,6 +84,62 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id=4]
+resource_name = "move_down"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -400, -200 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:margin_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -200, 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "move_upper"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -200, -400 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:margin_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, -200 ]
+}
+
+[sub_resource type="Animation" id=6]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Panel:self_modulate")
@@ -148,8 +204,8 @@ tracks/4/keys = {
 
 [node name="Chat" type="VBoxContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
+margin_top = -200.0
 margin_right = 400.0
-margin_bottom = 200.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -180,9 +236,9 @@ __meta__ = {
 [node name="InputField" type="LineEdit" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 148.0
-margin_right = 400.0
-margin_bottom = 172.0
+margin_top = 176.0
+margin_right = 58.0
+margin_bottom = 200.0
 focus_mode = 1
 placeholder_text = "Message"
 caret_blink = true
@@ -205,7 +261,9 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/hide_background = SubResource( 3 )
-anims/show_background = SubResource( 4 )
+anims/move_down = SubResource( 4 )
+anims/move_upper = SubResource( 5 )
+anims/show_background = SubResource( 6 )
 [connection signal="text_entered" from="InputField" to="." method="_write_message"]
-[connection signal="pressed" from="OpenChatButton" to="InputField" method="grab_focus"]
 [connection signal="pressed" from="OpenChatButton" to="AnimationPlayer" method="play" binds= [ "show_background" ]]
+[connection signal="pressed" from="OpenChatButton" to="InputField" method="grab_focus"]

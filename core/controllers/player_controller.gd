@@ -3,12 +3,16 @@ extends BaseController
 
 
 var _camera: PlayerCamera
+var _hud: HUD
 
 
 func _ready() -> void:
 	if is_network_master():
 		_camera = load("res://core/controllers/player_camera.tscn").instance()
 		character.add_child(_camera)
+		_hud = load("res://ui/hud/hud.tscn").instance()
+		_hud.character = character
+		add_child(_hud)
 	else:
 		set_physics_process(false)
 		set_process_input(false)

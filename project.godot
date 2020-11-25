@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://core/base_skill.gd"
 }, {
+"base": "VBoxContainer",
+"class": "Chat",
+"language": "GDScript",
+"path": "res://ui/chat/chat.gd"
+}, {
 "base": "WindowDialog",
 "class": "ConnectionDialog",
 "language": "GDScript",
@@ -68,6 +73,11 @@ _global_script_classes=[ {
 "class": "Game",
 "language": "GDScript",
 "path": "res://core/game.gd"
+}, {
+"base": "Control",
+"class": "HUD",
+"language": "GDScript",
+"path": "res://ui/hud/hud.gd"
 }, {
 "base": "Control",
 "class": "MainMenu",
@@ -124,6 +134,7 @@ _global_script_class_icons={
 "BaseController": "",
 "BaseHero": "",
 "BaseSkill": "",
+"Chat": "",
 "ConnectionDialog": "",
 "ControlUtils": "",
 "DirectConnectDialog": "",
@@ -132,6 +143,7 @@ _global_script_class_icons={
 "FloatingText": "",
 "FrostBolt": "",
 "Game": "",
+"HUD": "",
 "MainMenu": "",
 "PlayerCamera": "",
 "PlayerController": "",

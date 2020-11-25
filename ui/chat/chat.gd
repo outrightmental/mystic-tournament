@@ -1,3 +1,4 @@
+class_name Chat
 extends VBoxContainer
 
 
@@ -24,6 +25,14 @@ func _input(event: InputEvent) -> void:
 		if _input_field.has_focus():
 			_input_field.accept_event()
 			_input_field.release_focus()
+
+
+func move_upper() -> void:
+	_animation_player.play("move_upper")
+
+
+func move_down() -> void:
+	_animation_player.play("move_down")
 
 
 master func _send_message(message: String) -> void:
