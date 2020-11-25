@@ -16,8 +16,8 @@ sync var health := MAX_HEALTH
 
 var _motion: Vector3
 var _velocity: Vector3
-var _skils: Dictionary
-var _skils_spawn_positions: Dictionary
+var _abilities: Dictionary
+var _abilities_spawn_positions: Dictionary
 
 onready var _floating_text: FloatingText = $FloatingText
 onready var _rotation_tween: Tween = $RotationTween
@@ -59,8 +59,8 @@ puppetsync func rotate_smoothly_to(y_radians: float) -> void:
 	_rotation_tween.start()
 
 
-puppetsync func use_skill(skill_type: int) -> void:
-	_skils[skill_type].use(self, _skils_spawn_positions.get(skill_type).global_transform)
+puppetsync func use_ability(ability_type: int) -> void:
+	_abilities[ability_type].use(self, _abilities_spawn_positions.get(ability_type).global_transform)
 
 
 func get_level() -> int:

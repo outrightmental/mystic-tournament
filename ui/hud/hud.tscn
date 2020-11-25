@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://ui/hud/hud_skill.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/hud/hud_ability.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/hud/hud.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
@@ -115,7 +115,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Skills" type="HBoxContainer" parent="."]
+[node name="Abilities" type="HBoxContainer" parent="."]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -127,13 +127,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Skill1" parent="Skills" instance=ExtResource( 1 )]
+[node name="Ability1" parent="Abilities" instance=ExtResource( 1 )]
 margin_top = 20.0
 margin_bottom = 84.0
 size_flags_vertical = 8
 texture = SubResource( 10 )
 
-[node name="Skill2" parent="Skills" instance=ExtResource( 1 )]
+[node name="Ability2" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 68.0
 margin_top = 20.0
 margin_right = 132.0
@@ -141,7 +141,7 @@ margin_bottom = 84.0
 size_flags_vertical = 8
 texture = SubResource( 10 )
 
-[node name="Skill3" parent="Skills" instance=ExtResource( 1 )]
+[node name="Ability3" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 136.0
 margin_top = 20.0
 margin_right = 200.0
@@ -149,7 +149,7 @@ margin_bottom = 84.0
 size_flags_vertical = 8
 texture = SubResource( 10 )
 
-[node name="Skill4" parent="Skills" instance=ExtResource( 1 )]
+[node name="Ability4" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 204.0
 margin_top = 20.0
 margin_right = 268.0
@@ -157,7 +157,7 @@ margin_bottom = 84.0
 size_flags_vertical = 8
 texture = SubResource( 10 )
 
-[node name="UtltimateSkill" parent="Skills" instance=ExtResource( 1 )]
+[node name="UtltimateAbility" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 272.0
 margin_right = 356.0
 margin_bottom = 84.0

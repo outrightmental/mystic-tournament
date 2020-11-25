@@ -1,4 +1,4 @@
-class_name BaseSkill
+class_name BaseAbility
 extends Reference
 
 

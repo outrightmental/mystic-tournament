@@ -22,7 +22,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released("base_attack"):
 		character.rpc("rotate_smoothly_to", _camera.rotation.y)
 		yield(get_tree().create_timer(character.get_rotation_time()), "timeout")
-		character.rpc("use_skill", BaseHero.BASE_ATTACK)
+		character.rpc("use_ability", BaseHero.BASE_ATTACK)
 
 
 func _physics_process(delta: float) -> void:
