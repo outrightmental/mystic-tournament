@@ -5,7 +5,8 @@ extends KinematicBody
 signal died(sender, by)
 
 enum {
-	BASE_ATTACK
+	BASE_ATTACK,
+	ULTIMATE = 4,
 }
 
 const MOVE_SPEED = 10
@@ -59,8 +60,15 @@ puppetsync func rotate_smoothly_to(y_radians: float) -> void:
 	_rotation_tween.start()
 
 
+func can_use(ability_type: int) -> bool:
+	if not _abilities.has(ability_type):
+		return false
+	return true # Check for cooldown
+
+
 puppetsync func use_ability(ability_type: int) -> void:
-	_abilities[ability_type].use(self, _abilities_spawn_positions.get(ability_type).global_transform)
+	if _abilities.has(ability_type):
+		_abilities[ability_type].use(self, _abilities_spawn_positions.get(ability_type).global_transform)
 
 
 func get_level() -> int:

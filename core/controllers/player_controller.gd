@@ -2,6 +2,14 @@ class_name PlayerController
 extends BaseController
 
 
+const ABILITY_ACTIONS = [
+	"base_attack",
+	"ability1",
+	"ability2",
+	"ability3",
+	"ultimate",
+]
+
 var _camera: PlayerCamera
 var _hud: HUD
 
@@ -19,10 +27,11 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_released("base_attack"):
-		character.rpc("rotate_smoothly_to", _camera.rotation.y)
-		yield(get_tree().create_timer(character.get_rotation_time()), "timeout")
-		character.rpc("use_ability", BaseHero.BASE_ATTACK)
+	for index in ABILITY_ACTIONS.size():
+		if event.is_action_released(ABILITY_ACTIONS[index]) and character.can_use(index):
+			character.rpc("rotate_smoothly_to", _camera.rotation.y)
+			yield(get_tree().create_timer(character.get_rotation_time()), "timeout")
+			character.rpc("use_ability", index)
 
 
 func _physics_process(delta: float) -> void:
