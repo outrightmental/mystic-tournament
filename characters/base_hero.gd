@@ -4,6 +4,7 @@ extends KinematicBody
 
 signal died(sender, by)
 signal ability_changed(index, ability)
+signal health_changed(value)
 
 enum {
 	BASE_ATTACK,
@@ -12,9 +13,9 @@ enum {
 
 const MOVE_SPEED = 10
 const JUMP_IMPULSE = 4
-const MAX_HEALTH = 20
 
-sync var health := MAX_HEALTH
+sync var max_health: int = 20
+sync var health: int = max_health setget set_health
 
 var _motion: Vector3
 var _velocity: Vector3
@@ -91,12 +92,17 @@ func change_health(value: int, by: BaseHero = null) -> void:
 	if health <= 0:
 		return
 	_floating_text.show_text(value)
-	health = health + value
+	self.health = health + value
 	if health <= 0:
 		emit_signal("died", self, by)
 
 
+func set_health(value: int) -> void:
+	health = value
+	emit_signal("health_changed", health)
+
+
 func respawn(position: Vector3) -> void:
 	translation = position
-	health = MAX_HEALTH
+	self.health = max_health
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

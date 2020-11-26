@@ -4,7 +4,8 @@ extends Control
 
 var character: BaseHero setget set_character
 
-onready var _abilities = $Abilities
+onready var _abilities: HBoxContainer = $Abilities
+onready var _hp_bar: ValueBar = $VBox/HBox/HPBar
 
 
 func _ready() -> void:
@@ -14,3 +15,8 @@ func _ready() -> void:
 
 func set_character(new_character: BaseHero) -> void:
 	character = new_character
+
+	# warning-ignore:return_value_discarded
+	character.connect("health_changed", _hp_bar, "set_value")
+	_hp_bar.value = character.health
+	_hp_bar.max_value = character.max_health

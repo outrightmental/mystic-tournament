@@ -1,24 +1,25 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://ui/hud/hud_ability.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/hud/hud.gd" type="Script" id=2]
+[ext_resource path="res://ui/hud/value_bar.tscn" type="PackedScene" id=3]
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="Gradient" id=9]
 offsets = PoolRealArray( 0 )
 colors = PoolColorArray( 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
 width = 1
 
-[sub_resource type="GradientTexture" id=3]
+[sub_resource type="GradientTexture" id=11]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0 )
 colors = PoolColorArray( 0.179511, 0.570313, 0.0846558, 1 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=13]
+gradient = SubResource( 12 )
 
 [sub_resource type="GradientTexture" id=6]
 
@@ -29,20 +30,20 @@ colors = PoolColorArray( 0.484623, 0.184387, 0.621094, 1 )
 [sub_resource type="GradientTexture" id=8]
 gradient = SubResource( 7 )
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=14]
 offsets = PoolRealArray( 0 )
 colors = PoolColorArray( 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=10]
-gradient = SubResource( 9 )
+[sub_resource type="GradientTexture" id=15]
+gradient = SubResource( 14 )
 width = 1
 
-[sub_resource type="Gradient" id=11]
+[sub_resource type="Gradient" id=16]
 offsets = PoolRealArray( 0 )
 colors = PoolColorArray( 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=12]
-gradient = SubResource( 11 )
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 16 )
 width = 1
 
 [node name="HUD" type="Control"]
@@ -80,13 +81,13 @@ margin_right = 64.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( -1504.81, -550.31 )
-texture = SubResource( 2 )
+texture = SubResource( 10 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HPBar" type="TextureProgress" parent="VBox/HBox"]
+[node name="HPBar" parent="VBox/HBox" instance=ExtResource( 3 )]
 margin_left = 68.0
 margin_top = 34.0
 margin_right = 311.0
@@ -94,26 +95,18 @@ margin_bottom = 64.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 8
-value = 40.0
-texture_under = SubResource( 3 )
-texture_progress = SubResource( 5 )
+texture_under = SubResource( 11 )
+texture_progress = SubResource( 13 )
 nine_patch_stretch = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="XPBar" type="TextureProgress" parent="VBox"]
+[node name="XPBar" parent="VBox" instance=ExtResource( 3 )]
 margin_top = 68.0
 margin_right = 311.0
 margin_bottom = 78.0
 rect_min_size = Vector2( 0, 10 )
-value = 40.0
 texture_under = SubResource( 6 )
 texture_progress = SubResource( 8 )
 nine_patch_stretch = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Abilities" type="HBoxContainer" parent="."]
 anchor_left = 1.0
@@ -131,7 +124,7 @@ __meta__ = {
 margin_top = 20.0
 margin_bottom = 84.0
 size_flags_vertical = 8
-texture = SubResource( 10 )
+texture = SubResource( 15 )
 
 [node name="Ability2" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 68.0
@@ -139,7 +132,7 @@ margin_top = 20.0
 margin_right = 132.0
 margin_bottom = 84.0
 size_flags_vertical = 8
-texture = SubResource( 10 )
+texture = SubResource( 15 )
 
 [node name="Ability3" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 136.0
@@ -147,7 +140,7 @@ margin_top = 20.0
 margin_right = 200.0
 margin_bottom = 84.0
 size_flags_vertical = 8
-texture = SubResource( 10 )
+texture = SubResource( 15 )
 
 [node name="Ability4" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 204.0
@@ -155,11 +148,11 @@ margin_top = 20.0
 margin_right = 268.0
 margin_bottom = 84.0
 size_flags_vertical = 8
-texture = SubResource( 10 )
+texture = SubResource( 15 )
 
 [node name="UtltimateAbility" parent="Abilities" instance=ExtResource( 1 )]
 margin_left = 272.0
 margin_right = 356.0
 margin_bottom = 84.0
 rect_min_size = Vector2( 84, 84 )
-texture = SubResource( 12 )
+texture = SubResource( 17 )
