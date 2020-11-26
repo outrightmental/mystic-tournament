@@ -20,8 +20,7 @@ enum Buttons {
 puppetsync var id: int = -1 setget set_id
 
 
-# Team do not have a Team type to avoid cycling dependency issues
-# Maybe will be fixed: https://github.com/godotengine/godot/pull/38118
+# TODO 4.0: Use Team type for team (cyclic dependency)
 func _init(team: Node, slot_id: int).(team.get_parent(), team.get_tree_item()) -> void:
 	team.add_child(self, true)
 	self.id = slot_id

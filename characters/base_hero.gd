@@ -61,6 +61,7 @@ puppetsync func rotate_smoothly_to(y_radians: float) -> void:
 	_rotation_tween.start()
 
 
+# TODO 4.0: Use BaseAbility type for ability (cyclic dependency)
 func set_ability(index: int, ability, spawn_position: Position3D) -> void:
 	_abilities[index] = ability
 	_abilities_spawn_positions[index] = spawn_position
