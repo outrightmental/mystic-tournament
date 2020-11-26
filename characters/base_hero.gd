@@ -3,6 +3,7 @@ extends KinematicBody
 
 
 signal died(sender, by)
+signal ability_changed(index, ability)
 
 enum {
 	BASE_ATTACK,
@@ -60,15 +61,21 @@ puppetsync func rotate_smoothly_to(y_radians: float) -> void:
 	_rotation_tween.start()
 
 
-func can_use(ability_type: int) -> bool:
-	if not _abilities.has(ability_type):
+func set_ability(index: int, ability, spawn_position: Position3D) -> void:
+	_abilities[index] = ability
+	_abilities_spawn_positions[index] = spawn_position
+	emit_signal("ability_changed", index, ability)	
+
+
+func can_use(index: int) -> bool:
+	if not _abilities.has(index):
 		return false
 	return true # Check for cooldown
 
 
-puppetsync func use_ability(ability_type: int) -> void:
-	if _abilities.has(ability_type):
-		_abilities[ability_type].use(self, _abilities_spawn_positions.get(ability_type).global_transform)
+puppetsync func use_ability(index: int) -> void:
+	if _abilities.has(index):
+		_abilities[index].use(self, _abilities_spawn_positions.get(index).global_transform)
 
 
 func get_level() -> int:
