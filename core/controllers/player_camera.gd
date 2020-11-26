@@ -8,12 +8,8 @@ const ZOOM_SPEED := 0.5
 onready var _camera: Camera = $Camera
 
 func _ready() -> void:
-	if is_network_master():
-		if OS.is_window_focused():
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		_camera.set_current(true)
-	else:
-		set_process_input(false)
+	if OS.is_window_focused():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func _input(event: InputEvent) -> void:
