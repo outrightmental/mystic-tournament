@@ -17,6 +17,5 @@ func set_character(new_character: BaseHero) -> void:
 	character = new_character
 
 	# warning-ignore:return_value_discarded
-	character.connect("health_changed", _hp_bar, "set_value")
-	_hp_bar.value = character.health
-	_hp_bar.max_value = character.max_health
+	character.connect("health_changed", _hp_bar, "set_value_smoothly")
+	_hp_bar.reset(character.health, character.max_health)

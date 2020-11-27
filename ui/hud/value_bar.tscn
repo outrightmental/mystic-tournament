@@ -17,4 +17,5 @@ margin_left = 4.0
 margin_top = -7.0
 margin_right = 4.0
 margin_bottom = 7.0
-[connection signal="value_changed" from="." to="." method="_set_value_label"]
+
+[node name="Tween" type="Tween" parent="."]
