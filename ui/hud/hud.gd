@@ -10,7 +10,7 @@ onready var _hp_bar: ValueBar = $VBox/HBox/HPBar
 
 func _ready() -> void:
 	for index in _abilities.get_child_count():
-		_abilities.get_child(index).set_display_action(index)
+		_abilities.get_child(index).set_action_index(index)
 
 
 func set_character(new_character: BaseHero) -> void:
