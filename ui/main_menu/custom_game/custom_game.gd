@@ -39,6 +39,8 @@ func _ready() -> void:
 
 	if CmdArguments.server:
 		_confirm_creation()
+	elif CmdArguments.direct_connect:
+		_direct_join_lobby()
 
 
 func back() -> void:
