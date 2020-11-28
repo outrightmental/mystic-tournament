@@ -65,18 +65,23 @@ func set_teams_count(count: int) -> void:
 		_create_team(_teams.front().size())
 
 
-func add_connected_player(id: int) -> void:
+func add_connected_player(connected_id: int) -> void:
 	if not get_tree().is_network_server():
 		return
 
 	# Add player to the first empty slot
 	var slot: Slot = _find_slot(Slot.EMPTY_SLOT)
 	assert(slot != null, "There is no empty slots to add a new player")
-	slot.id = id
+	slot.id = connected_id
 
-	# Send all data to new player
+	# Send connected player data to other peers
+	for peer_id in get_tree().get_network_connected_peers():
+		if peer_id != connected_id:
+			slot.rset_id(peer_id, "id", connected_id)
+
+	# Send all data to the new player
 	for team in _teams:
-		rpc_id(id, "_create_team", team.get_slot_ids())
+		rpc_id(connected_id, "_create_team", team.get_slot_ids())
 
 
 func remove_disconnected_player(id: int) -> void:
