@@ -1,5 +1,7 @@
 class_name PlayerController
 extends BaseController
+# A PlayerController is the interface between the BaseHero and the human player controlling it.
+# It collect player inputs, sends it to other peers and applies it to the controlled character.
 
 
 const ABILITY_ACTIONS = [

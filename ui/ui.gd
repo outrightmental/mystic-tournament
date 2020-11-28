@@ -1,5 +1,6 @@
 class_name UI
 extends Control
+# Contains all game UI except player's HUD.
 
 
 onready var _main_menu: MainMenu = $MainMenu

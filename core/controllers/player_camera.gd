@@ -1,5 +1,7 @@
 class_name PlayerCamera
 extends SpringArm
+# Represents the player's point of view; how the player sees the world.
+# For this reason, cameras only have relevance to human-controlled players.
 
 
 const ROTATION_SPEED := 0.002

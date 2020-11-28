@@ -1,5 +1,7 @@
 class_name HUD
 extends Control
+# Displays elements overlaid on the screen.
+# Every human-controlled player in the game has their own instance of the this class which draws separately of other UI.
 
 
 var character: BaseHero setget set_character
