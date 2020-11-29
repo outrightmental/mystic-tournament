@@ -169,8 +169,8 @@ run/main_scene="res://core/main.tscn"
 
 [autoload]
 
-Gamemode="*res://core/gamemode.gd"
 CmdArguments="*res://core/cmd_arguments.gd"
+GameSession="*res://core/game_session.gd"
 
 [display]
 

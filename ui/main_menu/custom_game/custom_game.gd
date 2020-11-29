@@ -155,4 +155,4 @@ func _on_team_filled_changed(teams_full: bool) -> void:
 
 func _start_game() -> void:
 	_peer.refuse_new_connections = true
-	Gamemode.rpc("start_game")
+	GameSession.rpc("start_game")
