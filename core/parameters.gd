@@ -1,4 +1,4 @@
-class_name Game
+class_name Parameters
 # Helper wrapper for convenient getting project settings
 
 

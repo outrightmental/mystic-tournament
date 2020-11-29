@@ -33,7 +33,7 @@ func _init() -> void:
 
 
 func move(delta: float, direction: Vector3, jumping: bool) -> void:
-	_motion = _motion.linear_interpolate(direction * MOVE_SPEED, Game.get_motion_interpolate_speed() * delta)
+	_motion = _motion.linear_interpolate(direction * MOVE_SPEED, Parameters.get_motion_interpolate_speed() * delta)
 
 	var new_velocity: Vector3
 	if is_on_floor():
@@ -41,10 +41,10 @@ func move(delta: float, direction: Vector3, jumping: bool) -> void:
 		if jumping:
 			new_velocity.y = JUMP_IMPULSE
 		else:
-			new_velocity.y = -Game.get_gravity()
+			new_velocity.y = -Parameters.get_gravity()
 	else:
-		new_velocity = _velocity.linear_interpolate(_motion, Game.get_velocity_interpolate_speed() * delta)
-		new_velocity.y = _velocity.y - Game.get_gravity() * delta
+		new_velocity = _velocity.linear_interpolate(_motion, Parameters.get_velocity_interpolate_speed() * delta)
+		new_velocity.y = _velocity.y - Parameters.get_gravity() * delta
 
 	_velocity = move_and_slide(new_velocity, Vector3.UP, true)
 	# TODO: Replace with https://github.com/godotengine/godot/pull/37200
