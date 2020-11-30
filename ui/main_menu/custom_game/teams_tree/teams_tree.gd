@@ -152,4 +152,4 @@ func _is_teams_full() -> bool:
 
 func _set_session_data() -> void:
 	for team in _teams:
-		GameSession.teams.append(team.get_slot_ids())
+		GameSession.teams.append(TeamInfo.new(team.get_slot_ids()))
